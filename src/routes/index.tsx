@@ -13,7 +13,7 @@ import shieldWhite from "@/assets/logo-shield-white.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Freeman Corretora — Seguros Corporativos em Santos/SP" },
+      { title: "Freeman Seguros" },
       {
         name: "description",
         content:
