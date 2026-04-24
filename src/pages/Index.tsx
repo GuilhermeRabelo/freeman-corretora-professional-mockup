@@ -1,42 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Building2,
-  Truck,
-  HeartPulse,
-  ShieldCheck,
-  ArrowRight,
-} from "lucide-react";
-import { SiteLayout } from "@/components/site/SiteLayout";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Building2, Truck, HeartPulse, ShieldCheck, ArrowRight } from "lucide-react";
+import { SiteLayout } from "@/components/layout/SiteLayout";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
 import heroImg from "@/assets/hero-corporate.jpg";
 import shieldWhite from "@/assets/logo-shield-white.png";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Freeman Seguros" },
-      {
-        name: "description",
-        content:
-          "35 anos de expertise em seguros corporativos. Soluções sob medida em Patrimonial, Frota, Vida em Grupo, D&O e Responsabilidade Civil.",
-      },
-      { property: "og:title", content: "Freeman Corretora — Proteção sólida para empresas" },
-      {
-        property: "og:description",
-        content:
-          "Há 35 anos protegendo empresas com apólices personalizadas e atendimento dedicado.",
-      },
-      { property: "og:image", content: heroImg },
-      { name: "twitter:image", content: heroImg },
-    ],
-  }),
-  component: HomePage,
-});
-
 const STATS = [
-  { value: "35+", label: "Anos de Mercado" },
-  { value: "500+", label: "Empresas Atendidas" },
-  { value: "100%", label: "Apólices Personalizadas" },
-  { value: "24h", label: "Atendimento Dedicado" },
+  { end: 35, suffix: "+", label: "Anos de Mercado" },
+  { end: 500, suffix: "+", label: "Empresas Atendidas" },
+  { end: 100, suffix: "%", label: "Apólices Personalizadas" },
+  { end: 24, suffix: "h", label: "Atendimento Dedicado" },
 ];
 
 const SERVICES = [
@@ -62,16 +36,13 @@ const SERVICES = [
   },
 ];
 
-const PARTNERS = [
-  "PORTO",
-  "ALLIANZ",
-  "TOKIO MARINE",
-  "BRADESCO",
-  "SULAMÉRICA",
-  "MAPFRE",
-];
+const PARTNERS = ["PORTO", "ALLIANZ", "TOKIO MARINE", "BRADESCO", "SULAMÉRICA", "MAPFRE"];
 
-function HomePage() {
+export default function IndexPage() {
+  useEffect(() => {
+    document.title = "Freeman Seguros";
+  }, []);
+
   return (
     <SiteLayout>
       {/* HERO */}
@@ -91,13 +62,13 @@ function HomePage() {
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
                 to="/contato"
-                className="inline-flex items-center justify-center rounded-sm bg-white px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-colors hover:bg-white/90"
+                className="inline-flex items-center justify-center rounded-[4px] bg-white px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-colors hover:bg-white/90"
               >
                 Solicitar Cotação
               </Link>
               <Link
                 to="/servicos"
-                className="inline-flex items-center justify-center rounded-sm border border-white/60 px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-[4px] border border-white/60 px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-white/10"
               >
                 Nossos Serviços
               </Link>
@@ -134,7 +105,11 @@ function HomePage() {
               key={s.label}
               className={`px-6 text-center ${i > 0 ? "md:border-l md:border-divider" : ""}`}
             >
-              <div className="font-sans text-5xl font-black text-navy md:text-6xl">{s.value}</div>
+              <AnimatedCounter
+                end={s.end}
+                suffix={s.suffix}
+                className="font-sans text-5xl font-black text-navy md:text-6xl"
+              />
               <div className="mt-3 font-sans text-xs font-semibold uppercase tracking-widest text-graphite">
                 {s.label}
               </div>
@@ -160,13 +135,11 @@ function HomePage() {
             {SERVICES.map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="group flex flex-col rounded-sm border border-divider bg-background p-8 transition-transform hover:-translate-y-1"
+                className="group flex flex-col rounded-[4px] border border-divider bg-background p-8 transition-transform hover:-translate-y-1"
               >
                 <Icon className="h-10 w-10 text-navy" strokeWidth={1.25} />
                 <h3 className="mt-6 text-xl">{title}</h3>
-                <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-graphite">
-                  {desc}
-                </p>
+                <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-graphite">{desc}</p>
                 <Link
                   to="/servicos"
                   className="mt-6 inline-flex items-center gap-2 font-sans text-sm font-semibold uppercase tracking-wider text-navy-medium transition-colors group-hover:text-navy"
@@ -185,11 +158,13 @@ function HomePage() {
           <p className="text-center font-sans text-xs font-semibold uppercase tracking-widest text-graphite">
             Trabalhamos com as maiores seguradoras do mercado
           </p>
-          <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
-            {PARTNERS.map((p) => (
+        </div>
+        <div className="marquee-mask group mt-10 overflow-hidden">
+          <div className="animate-marquee flex w-max gap-8 pr-8 group-hover:[animation-play-state:paused]">
+            {[...PARTNERS, ...PARTNERS].map((p, i) => (
               <div
-                key={p}
-                className="flex h-16 items-center justify-center border border-divider font-sans text-sm font-black uppercase tracking-widest text-graphite/50 grayscale transition-all hover:text-navy hover:grayscale-0"
+                key={`${p}-${i}`}
+                className="flex h-16 w-48 shrink-0 items-center justify-center border border-divider font-sans text-sm font-black uppercase tracking-widest text-graphite/50 grayscale transition-all hover:text-navy hover:grayscale-0"
               >
                 {p}
               </div>
@@ -209,7 +184,7 @@ function HomePage() {
           </div>
           <Link
             to="/contato"
-            className="inline-flex items-center justify-center rounded-sm bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
+            className="inline-flex items-center justify-center rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
           >
             Solicitar Cotação
           </Link>

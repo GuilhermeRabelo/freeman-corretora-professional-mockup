@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import logoFullWhite from "@/assets/logo-full-white.png";
 
 export function SiteFooter() {
@@ -63,7 +63,10 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 font-sans text-xs text-white/50 md:flex-row md:justify-between">
-          <span>© {new Date().getFullYear()} Freeman Corretora de Seguros. Todos os direitos reservados.</span>
+          <span>
+            © {new Date().getFullYear()} Freeman Corretora de Seguros. Todos os direitos
+            reservados.
+          </span>
           <span>SUSEP nº 00000000 · CNPJ 00.000.000/0001-00</span>
         </div>
       </div>

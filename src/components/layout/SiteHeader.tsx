@@ -1,14 +1,22 @@
-import { Link } from "@tanstack/react-router";
+import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logoFullNavy from "@/assets/logo-full-navy.png";
 
 const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/sobre", label: "Sobre" },
-  { to: "/servicos", label: "Serviços" },
-  { to: "/contato", label: "Contato" },
+  { to: "/", label: "Home", end: true },
+  { to: "/sobre", label: "Sobre", end: false },
+  { to: "/servicos", label: "Serviços", end: false },
+  { to: "/contato", label: "Contato", end: false },
 ] as const;
+
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  [
+    "font-sans text-sm font-semibold uppercase tracking-wider text-graphite transition-colors hover:text-navy",
+    isActive && "text-navy underline underline-offset-8 decoration-2",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -28,18 +36,13 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-10 md:flex">
           {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              className="font-sans text-sm font-semibold uppercase tracking-wider text-graphite transition-colors hover:text-navy data-[status=active]:text-navy data-[status=active]:underline data-[status=active]:underline-offset-8 data-[status=active]:decoration-2"
-            >
+            <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
               {item.label}
-            </Link>
+            </NavLink>
           ))}
           <Link
             to="/contato"
-            className="rounded-sm bg-navy px-5 py-3 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-navy-medium"
+            className="rounded-[4px] bg-navy px-5 py-3 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-navy-medium"
           >
             Solicitar Cotação
           </Link>
@@ -59,20 +62,27 @@ export function SiteHeader() {
         <nav className="border-t border-divider bg-background md:hidden">
           <div className="flex flex-col px-6 py-4">
             {NAV.map((item) => (
-              <Link
+              <NavLink
                 key={item.to}
                 to={item.to}
+                end={item.end}
                 onClick={() => setOpen(false)}
-                activeOptions={{ exact: item.to === "/" }}
-                className="border-b border-divider py-3 font-sans text-sm font-semibold uppercase tracking-wider text-graphite data-[status=active]:text-navy"
+                className={({ isActive }) =>
+                  [
+                    "border-b border-divider py-3 font-sans text-sm font-semibold uppercase tracking-wider text-graphite",
+                    isActive && "text-navy",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")
+                }
               >
                 {item.label}
-              </Link>
+              </NavLink>
             ))}
             <Link
               to="/contato"
               onClick={() => setOpen(false)}
-              className="mt-4 rounded-sm bg-navy px-5 py-3 text-center font-sans text-sm font-bold uppercase tracking-wider text-white"
+              className="mt-4 rounded-[4px] bg-navy px-5 py-3 text-center font-sans text-sm font-bold uppercase tracking-wider text-white"
             >
               Solicitar Cotação
             </Link>

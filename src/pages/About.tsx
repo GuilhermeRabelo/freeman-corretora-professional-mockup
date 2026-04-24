@@ -1,28 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Eye, Award, Users } from "lucide-react";
-import { SiteLayout } from "@/components/site/SiteLayout";
-import aboutImg from "@/assets/about-corporate.jpg";
+import { useEffect } from "react";
+import { Eye, Award, Users, User } from "lucide-react";
+import { SiteLayout } from "@/components/layout/SiteLayout";
 
-export const Route = createFileRoute("/sobre")({
-  head: () => ({
-    meta: [
-      { title: "Sobre a Freeman — 35 anos de tradição em seguros corporativos" },
-      {
-        name: "description",
-        content:
-          "Conheça a história da Freeman Corretora: 35 anos de tradição, ética e foco em resultados para empresas brasileiras.",
-      },
-      { property: "og:title", content: "Sobre a Freeman Corretora" },
-      {
-        property: "og:description",
-        content: "Tradição, ética e foco em resultados desde 1989.",
-      },
-      { property: "og:image", content: aboutImg },
-      { name: "twitter:image", content: aboutImg },
-    ],
-  }),
-  component: SobrePage,
-});
+const DIRETORIA = [
+  { role: "Diretor", name: "" },
+  { role: "Sócio", name: "" },
+];
 
 const VALUES = [
   {
@@ -49,7 +32,11 @@ const TIMELINE = [
   { year: "2025", label: "500+ empresas atendidas" },
 ];
 
-function SobrePage() {
+export default function SobrePage() {
+  useEffect(() => {
+    document.title = "Sobre a Freeman — 35 anos de tradição em seguros corporativos";
+  }, []);
+
   return (
     <SiteLayout>
       {/* INTERNAL HERO */}
@@ -59,24 +46,27 @@ function SobrePage() {
             Quem somos
           </p>
           <h1 className="mt-4 text-5xl !text-white md:text-6xl">Sobre a Freeman</h1>
-          <p className="mt-5 font-sans text-lg text-white/80">
-            Tradição, Ética e Foco em Resultados.
-          </p>
+          <p className="mt-5 font-sans text-lg text-white/80">Tradição, Ética e Foco em Resultados.</p>
         </div>
       </section>
 
       {/* INSTITUTIONAL SPLIT */}
       <section className="bg-background py-24">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-2">
-          <div className="border-2 border-navy">
-            <img
-              src={aboutImg}
-              alt="Diretoria da Freeman Corretora em reunião"
-              width={1280}
-              height={1280}
-              loading="lazy"
-              className="block h-full w-full object-cover"
-            />
+          <div className="flex items-start justify-center gap-10 sm:gap-16">
+            {DIRETORIA.map((person) => (
+              <div key={person.role} className="flex flex-col items-center">
+                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-graphite/40 bg-white grayscale sm:h-48 sm:w-48">
+                  <User className="h-16 w-16 text-graphite/50" strokeWidth={1.25} />
+                </div>
+                <p className="mt-5 font-sans text-base font-semibold text-graphite">
+                  {person.role}
+                </p>
+                {person.name && (
+                  <p className="mt-1 font-sans text-sm text-graphite/70">{person.name}</p>
+                )}
+              </div>
+            ))}
           </div>
           <div>
             <p className="font-sans text-sm font-bold uppercase tracking-[0.25em] text-accent-red">

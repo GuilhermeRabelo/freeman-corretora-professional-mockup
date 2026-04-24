@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   HardHat,
   Briefcase,
@@ -13,26 +14,7 @@ import {
   PenLine,
   LifeBuoy,
 } from "lucide-react";
-import { SiteLayout } from "@/components/site/SiteLayout";
-
-export const Route = createFileRoute("/servicos")({
-  head: () => ({
-    meta: [
-      { title: "Serviços — Seguros Corporativos | Freeman Corretora" },
-      {
-        name: "description",
-        content:
-          "Apólices empresariais sob medida: Riscos de Engenharia, D&O, Patrimonial, Frota, Vida em Grupo, RC, Garantia e Transportes.",
-      },
-      { property: "og:title", content: "Nossas Especialidades — Freeman Corretora" },
-      {
-        property: "og:description",
-        content: "Soluções B2B em seguros para operações complexas.",
-      },
-    ],
-  }),
-  component: ServicosPage,
-});
+import { SiteLayout } from "@/components/layout/SiteLayout";
 
 const SERVICES = [
   {
@@ -84,7 +66,11 @@ const PROCESS = [
   { icon: LifeBuoy, title: "Sinistro", desc: "Acompanhamento dedicado da abertura à indenização." },
 ];
 
-function ServicosPage() {
+export default function ServicosPage() {
+  useEffect(() => {
+    document.title = "Serviços — Seguros Corporativos | Freeman Corretora";
+  }, []);
+
   return (
     <SiteLayout>
       {/* INTERNAL HERO */}
@@ -117,7 +103,7 @@ function ServicosPage() {
                   <p className="mt-3 font-sans text-sm leading-relaxed text-graphite">{desc}</p>
                   <Link
                     to="/contato"
-                    className="mt-5 inline-flex items-center justify-center rounded-sm border border-navy px-5 py-2.5 font-sans text-xs font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy hover:text-white"
+                    className="mt-5 inline-flex items-center justify-center rounded-[4px] border border-navy px-5 py-2.5 font-sans text-xs font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy hover:text-white"
                   >
                     Solicitar Cotação
                   </Link>
@@ -165,7 +151,7 @@ function ServicosPage() {
           </div>
           <Link
             to="/contato"
-            className="inline-flex items-center justify-center rounded-sm bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
+            className="inline-flex items-center justify-center rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
           >
             Falar com Especialista
           </Link>
