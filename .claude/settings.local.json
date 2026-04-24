@@ -7,11 +7,14 @@
       "Bash(grep -v \"^admin$\")",
       "Bash(rm -f src/routes/__root.tsx src/routes/index.tsx src/routes/servicos.tsx src/routes/sobre.tsx src/routes/contato.tsx src/router.tsx src/routeTree.gen.ts)",
       "Bash(rmdir src/routes)",
-      "Bash(bun install *)",
-      "Bash(bun add *)",
-      "Bash(bun remove *)",
+      "Bash(npm install *)",
+      "Bash(npm add *)",
+      "Bash(npm uninstall *)",
       "PowerShell(Get-Command *)",
-      "PowerShell(Get-ChildItem *)"
+      "PowerShell(Get-ChildItem *)",
+      "WebFetch(domain:skills.sh)",
+      "Bash(npx skills *)",
+      "Bash(npm run *)"
     ]
   }
 }

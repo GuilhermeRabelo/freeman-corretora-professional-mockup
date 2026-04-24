@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import shieldWhite from "@/assets/logo-shield-white.png";
 import {
   HardHat,
   Briefcase,
@@ -14,7 +15,6 @@ import {
   PenLine,
   LifeBuoy,
 } from "lucide-react";
-import { SiteLayout } from "@/components/layout/SiteLayout";
 
 const SERVICES = [
   {
@@ -72,18 +72,25 @@ export default function ServicosPage() {
   }, []);
 
   return (
-    <SiteLayout>
+    <>
       {/* INTERNAL HERO */}
-      <section className="bg-navy-medium py-20 text-center text-white">
+      <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
         <div className="mx-auto max-w-4xl px-6">
           <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
             O que fazemos
           </p>
-          <h1 className="mt-4 text-5xl !text-white md:text-6xl">Nossas Especialidades</h1>
+          <h1 className="mt-4 text-5xl md:text-6xl">Nossas Especialidades</h1>
           <p className="mt-5 font-sans text-lg text-white/80">
             Apólices desenhadas para a complexidade real do seu negócio.
           </p>
         </div>
+        <img
+          src={shieldWhite}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-10 bottom-0 h-[260px] w-[260px] opacity-[0.05]"
+          loading="lazy"
+        />
       </section>
 
       {/* SERVICES GRID */}
@@ -144,7 +151,7 @@ export default function ServicosPage() {
       <section className="bg-navy-medium py-20">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
           <div>
-            <h2 className="text-3xl !text-white md:text-4xl">Não encontrou o que procura?</h2>
+            <h2 className="text-3xl md:text-4xl">Não encontrou o que procura?</h2>
             <p className="mt-3 font-sans text-base text-white/80">
               Nossa equipe desenha apólices sob medida para operações complexas.
             </p>
@@ -157,6 +164,6 @@ export default function ServicosPage() {
           </Link>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }

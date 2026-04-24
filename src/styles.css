@@ -149,6 +149,19 @@
     color: var(--color-navy);
     letter-spacing: 0.01em;
   }
+
+  /* Auto-inverte heading em seções escuras da marca — elimina uso de !text-white */
+  .bg-navy h1, .bg-navy h2, .bg-navy h3,
+  .bg-navy-medium h1, .bg-navy-medium h2, .bg-navy-medium h3 {
+    color: white;
+  }
+
+  /* Focus ring global consistente para navegação por teclado */
+  :focus-visible {
+    outline: 2px solid var(--color-navy);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 @keyframes marquee-left {

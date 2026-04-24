@@ -22,7 +22,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest !text-white">
+            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
               Navegação
             </h4>
             <ul className="space-y-3 font-sans text-sm text-white/75">
@@ -34,7 +34,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest !text-white">
+            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
               Contato
             </h4>
             <ul className="space-y-3 font-sans text-sm text-white/75">
@@ -45,7 +45,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest !text-white">
+            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
               Endereço
             </h4>
             <p className="font-sans text-sm leading-relaxed text-white/75">

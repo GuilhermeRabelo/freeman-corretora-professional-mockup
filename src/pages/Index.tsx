@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Building2, Truck, HeartPulse, ShieldCheck, ArrowRight } from "lucide-react";
-import { SiteLayout } from "@/components/layout/SiteLayout";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import heroImg from "@/assets/hero-corporate.jpg";
 import shieldWhite from "@/assets/logo-shield-white.png";
@@ -44,7 +43,7 @@ export default function IndexPage() {
   }, []);
 
   return (
-    <SiteLayout>
+    <>
       {/* HERO */}
       <section className="relative overflow-hidden bg-navy text-white">
         <div className="mx-auto grid min-h-[80vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-0">
@@ -52,7 +51,7 @@ export default function IndexPage() {
             <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
               Corretora de Seguros · Desde 1989
             </p>
-            <h1 className="mt-6 text-5xl !text-white leading-[1.05] md:text-6xl lg:text-7xl">
+            <h1 className="mt-6 text-5xl leading-[1.05] md:text-6xl lg:text-7xl">
               Proteção sólida para empresas que não podem parar.
             </h1>
             <p className="mt-6 max-w-xl font-sans text-base leading-relaxed text-white/80 md:text-lg">
@@ -75,7 +74,7 @@ export default function IndexPage() {
             </div>
           </div>
 
-          <div className="relative h-[60vh] lg:h-[80vh]">
+          <div className="relative hidden h-[80vh] lg:block">
             <img
               src={heroImg}
               alt="Edifícios corporativos modernos vistos de baixo"
@@ -164,7 +163,7 @@ export default function IndexPage() {
             {[...PARTNERS, ...PARTNERS].map((p, i) => (
               <div
                 key={`${p}-${i}`}
-                className="flex h-16 w-48 shrink-0 items-center justify-center border border-divider font-sans text-sm font-black uppercase tracking-widest text-graphite/50 grayscale transition-all hover:text-navy hover:grayscale-0"
+                className="flex h-16 w-48 shrink-0 items-center justify-center border border-divider font-sans text-sm font-black uppercase tracking-widest text-graphite/75 grayscale transition-colors hover:text-navy hover:grayscale-0"
               >
                 {p}
               </div>
@@ -177,7 +176,7 @@ export default function IndexPage() {
       <section className="bg-navy-medium py-20">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
           <div>
-            <h2 className="text-3xl !text-white md:text-4xl">Pronto para proteger seu negócio?</h2>
+            <h2 className="text-3xl md:text-4xl">Pronto para proteger seu negócio?</h2>
             <p className="mt-3 font-sans text-base text-white/80">
               Fale com um especialista hoje mesmo e receba uma análise sem compromisso.
             </p>
@@ -190,6 +189,6 @@ export default function IndexPage() {
           </Link>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }

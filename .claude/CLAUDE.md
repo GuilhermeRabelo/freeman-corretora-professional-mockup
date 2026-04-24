@@ -5,12 +5,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-bun dev          # Start Vite dev server
-bun run build    # Production build
-bun run build:dev # Development build
-bun run preview  # Preview production build
-bun run lint     # ESLint
-bun run format   # Prettier formatting
+npm run dev       # Start Vite dev server
+npm run build     # Production build
+npm run build:dev # Development build
+npm run preview   # Preview production build
+npm run lint      # ESLint
+npm run format    # Prettier formatting
 ```
 
 No test suite is configured.

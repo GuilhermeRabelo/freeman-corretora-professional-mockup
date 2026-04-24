@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
-import { SiteLayout } from "@/components/layout/SiteLayout";
 
 const WHATSAPP_URL =
   "https://wa.me/5513000000000?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o.";
@@ -17,12 +16,27 @@ const SEGUROS = [
   "Outro",
 ];
 
+type FormKey = "nome" | "empresa" | "cargo" | "telefone" | "email" | "seguro" | "mensagem";
+
+const VALIDATED_FIELDS: FormKey[] = ["nome", "empresa", "telefone", "email", "seguro"];
+
+function getError(form: Record<FormKey, string>, k: FormKey): string {
+  if (!VALIDATED_FIELDS.includes(k)) return "";
+  if (k === "seguro") return form.seguro === "" ? "Selecione uma opção" : "";
+  if (k === "email") {
+    if (!form.email.trim()) return "Campo obrigatório";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return "E-mail inválido";
+    return "";
+  }
+  return form[k].trim() === "" ? "Campo obrigatório" : "";
+}
+
 export default function ContatoPage() {
   useEffect(() => {
     document.title = "Contato — Freeman Corretora | Santos/SP";
   }, []);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Record<FormKey, string>>({
     nome: "",
     empresa: "",
     cargo: "",
@@ -32,8 +46,27 @@ export default function ContatoPage() {
     mensagem: "",
   });
 
+  const [touched, setTouched] = useState<Set<FormKey>>(new Set());
+
+  const touch = (k: FormKey) => setTouched((prev) => new Set([...prev, k]));
+
+  const set =
+    (k: FormKey) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      setForm((prev) => ({ ...prev, [k]: e.target.value }));
+
+  const inputClass = (k: FormKey) =>
+    [
+      "w-full rounded-[4px] border bg-background px-4 py-3 font-sans text-sm text-graphite focus:outline-none focus:ring-2",
+      touched.has(k) && getError(form, k)
+        ? "border-accent-red focus:border-accent-red focus:ring-accent-red/20"
+        : "border-divider focus:border-navy focus:ring-navy/20",
+    ].join(" ");
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched(new Set(VALIDATED_FIELDS));
+    if (VALIDATED_FIELDS.some((k) => getError(form, k))) return;
     const subject = `Solicitação de cotação — ${form.seguro || "Seguro Corporativo"}`;
     const body = [
       `Nome: ${form.nome}`,
@@ -49,13 +82,8 @@ export default function ContatoPage() {
     window.location.href = `mailto:contato@freemancorretora.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
-  const set =
-    (k: keyof typeof form) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-      setForm((prev) => ({ ...prev, [k]: e.target.value }));
-
   return (
-    <SiteLayout>
+    <>
       <section className="bg-background py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2">
           {/* INFO */}
@@ -112,6 +140,7 @@ export default function ContatoPage() {
           {/* FORM */}
           <form
             onSubmit={handleSubmit}
+            noValidate
             className="rounded-[4px] border border-divider bg-offwhite p-8 md:p-10"
           >
             <h2 className="text-2xl">Solicite uma cotação</h2>
@@ -120,30 +149,84 @@ export default function ContatoPage() {
             </p>
 
             <div className="mt-8 space-y-5">
-              {[
-                { k: "nome", label: "Nome Completo *", type: "text", required: true },
-                { k: "empresa", label: "Empresa (CNPJ) *", type: "text", required: true },
-                { k: "cargo", label: "Cargo", type: "text" },
-                { k: "telefone", label: "Telefone Comercial *", type: "tel", required: true },
-                { k: "email", label: "E-mail Corporativo *", type: "email", required: true },
-              ].map((f) => (
-                <Field key={f.k} label={f.label}>
-                  <input
-                    type={f.type}
-                    required={f.required}
-                    value={form[f.k as keyof typeof form]}
-                    onChange={set(f.k as keyof typeof form)}
-                    className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-sm text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
-                  />
-                </Field>
-              ))}
+              <Field
+                label="Nome Completo *"
+                error={touched.has("nome") ? getError(form, "nome") : ""}
+              >
+                <input
+                  type="text"
+                  required
+                  value={form.nome}
+                  onChange={set("nome")}
+                  onBlur={() => touch("nome")}
+                  className={inputClass("nome")}
+                />
+              </Field>
 
-              <Field label="Seguro de Interesse *">
+              <Field
+                label="Empresa (CNPJ) *"
+                error={touched.has("empresa") ? getError(form, "empresa") : ""}
+              >
+                <input
+                  type="text"
+                  required
+                  value={form.empresa}
+                  onChange={set("empresa")}
+                  onBlur={() => touch("empresa")}
+                  className={inputClass("empresa")}
+                />
+              </Field>
+
+              <Field label="Cargo">
+                <input
+                  type="text"
+                  value={form.cargo}
+                  onChange={set("cargo")}
+                  className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-sm text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
+                />
+              </Field>
+
+              <Field
+                label="Telefone Comercial *"
+                error={touched.has("telefone") ? getError(form, "telefone") : ""}
+              >
+                <input
+                  type="tel"
+                  required
+                  value={form.telefone}
+                  onChange={set("telefone")}
+                  onBlur={() => touch("telefone")}
+                  className={inputClass("telefone")}
+                />
+              </Field>
+
+              <Field
+                label="E-mail Corporativo *"
+                error={touched.has("email") ? getError(form, "email") : ""}
+              >
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={set("email")}
+                  onBlur={() => touch("email")}
+                  className={inputClass("email")}
+                />
+              </Field>
+
+              <Field
+                label="Seguro de Interesse *"
+                error={touched.has("seguro") ? getError(form, "seguro") : ""}
+              >
                 <select
                   required
                   value={form.seguro}
-                  onChange={set("seguro")}
-                  className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-sm text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
+                  onChange={(e) => {
+                    set("seguro")(e);
+                    touch("seguro");
+                  }}
+                  onBlur={() => touch("seguro")}
+                  className={inputClass("seguro")}
                 >
                   <option value="">Selecione…</option>
                   {SEGUROS.map((s) => (
@@ -170,7 +253,7 @@ export default function ContatoPage() {
                 Enviar Solicitação
               </button>
 
-              <p className="text-center font-sans text-xs text-graphite/70">
+              <p className="text-center font-sans text-xs text-graphite/80">
                 Ao enviar, você concorda com nossa política de privacidade.
               </p>
             </div>
@@ -187,17 +270,28 @@ export default function ContatoPage() {
           loading="lazy"
         />
       </section>
-    </SiteLayout>
+    </>
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  error,
+  children,
+}: {
+  label: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block">
       <span className="mb-2 block font-sans text-xs font-bold uppercase tracking-widest text-navy-medium">
         {label}
       </span>
       {children}
+      {error && (
+        <span className="mt-1.5 block font-sans text-xs font-medium text-accent-red">{error}</span>
+      )}
     </label>
   );
 }

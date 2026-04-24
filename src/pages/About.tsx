@@ -1,10 +1,12 @@
 import { useEffect } from "react";
-import { Eye, Award, Users, User } from "lucide-react";
-import { SiteLayout } from "@/components/layout/SiteLayout";
+import { Eye, Award, Users } from "lucide-react";
+import shieldWhite from "@/assets/logo-shield-white.png";
+import rogerioPhoto from "@/assets/rogerio.png";
+import igorPhoto from "@/assets/igor.png";
 
 const DIRETORIA = [
-  { role: "Diretor", name: "" },
-  { role: "Sócio", name: "" },
+  { role: "Diretor", name: "Rogerio Freeman", photo: rogerioPhoto },
+  { role: "Sócio", name: "Igor Freeman", photo: igorPhoto },
 ];
 
 const VALUES = [
@@ -38,16 +40,23 @@ export default function SobrePage() {
   }, []);
 
   return (
-    <SiteLayout>
+    <>
       {/* INTERNAL HERO */}
-      <section className="bg-navy-medium py-20 text-center text-white">
+      <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
         <div className="mx-auto max-w-4xl px-6">
           <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
             Quem somos
           </p>
-          <h1 className="mt-4 text-5xl !text-white md:text-6xl">Sobre a Freeman</h1>
+          <h1 className="mt-4 text-5xl md:text-6xl">Sobre a Freeman</h1>
           <p className="mt-5 font-sans text-lg text-white/80">Tradição, Ética e Foco em Resultados.</p>
         </div>
+        <img
+          src={shieldWhite}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-10 bottom-0 h-[260px] w-[260px] opacity-[0.05]"
+          loading="lazy"
+        />
       </section>
 
       {/* INSTITUTIONAL SPLIT */}
@@ -56,21 +65,23 @@ export default function SobrePage() {
           <div className="flex items-start justify-center gap-10 sm:gap-16">
             {DIRETORIA.map((person) => (
               <div key={person.role} className="flex flex-col items-center">
-                <div className="flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-graphite/40 bg-white grayscale sm:h-48 sm:w-48">
-                  <User className="h-16 w-16 text-graphite/50" strokeWidth={1.25} />
+                <div className="h-52 w-52 overflow-hidden rounded-full bg-white sm:h-64 sm:w-64">
+                  <img
+                    src={person.photo}
+                    alt={person.role}
+                    className="h-full w-full object-cover object-top"
+                  />
                 </div>
-                <p className="mt-5 font-sans text-base font-semibold text-graphite">
-                  {person.role}
+                <p className="mt-2 font-sans text-base font-semibold text-graphite">
+                  {person.name}
                 </p>
-                {person.name && (
-                  <p className="mt-1 font-sans text-sm text-graphite/70">{person.name}</p>
-                )}
+                <p className="mt-1 font-sans text-sm text-graphite/70">{person.role}</p>
               </div>
             ))}
           </div>
           <div>
-            <p className="font-sans text-sm font-bold uppercase tracking-[0.25em] text-accent-red">
-              35 anos de história.
+            <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-accent-red">
+              35 anos de história
             </p>
             <h2 className="mt-4 text-4xl md:text-5xl">
               Entendemos o risco para proteger o seu sucesso.
@@ -104,13 +115,13 @@ export default function SobrePage() {
             <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
               Nossos valores
             </p>
-            <h2 className="mt-4 text-4xl !text-white md:text-5xl">O que nos move</h2>
+            <h2 className="mt-4 text-4xl md:text-5xl">O que nos move</h2>
           </div>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
             {VALUES.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="border border-white/15 p-8">
                 <Icon className="h-10 w-10 text-white" strokeWidth={1.25} />
-                <h3 className="mt-6 text-2xl !text-white">{title}</h3>
+                <h3 className="mt-6 text-2xl">{title}</h3>
                 <p className="mt-4 font-sans text-sm leading-relaxed text-white/80">{desc}</p>
               </div>
             ))}
@@ -136,6 +147,6 @@ export default function SobrePage() {
           </div>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }
