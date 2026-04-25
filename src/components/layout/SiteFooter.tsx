@@ -16,8 +16,7 @@ export function SiteFooter() {
               loading="lazy"
             />
             <p className="mt-6 max-w-xs font-sans text-sm leading-relaxed text-white/75">
-              Há 35 anos protegendo empresas com soluções de seguros corporativos sob medida em
-              Santos e em todo o Brasil.
+              Há 35 anos protegendo a sua vida e o seu patrimônio.
             </p>
           </div>
 
@@ -67,7 +66,7 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Freeman Corretora de Seguros. Todos os direitos
             reservados.
           </span>
-          <span>SUSEP nº 00000000 · CNPJ 00.000.000/0001-00</span>
+          <span>SUSEP nº 00000000 · CNPJ 36.756.226/0001-64</span>
         </div>
       </div>
     </footer>

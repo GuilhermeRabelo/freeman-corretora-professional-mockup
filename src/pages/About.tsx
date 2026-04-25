@@ -1,12 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Eye, Award, Users } from "lucide-react";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import rogerioPhoto from "@/assets/rogerio.png";
 import igorPhoto from "@/assets/igor.png";
 
 const DIRETORIA = [
-  { role: "Diretor", name: "Rogerio Freeman", photo: rogerioPhoto },
-  { role: "Sócio", name: "Igor Freeman", photo: igorPhoto },
+  {
+    role: "Sócio-Fundador",
+    name: "Rogério Freeman",
+    photo: rogerioPhoto,
+    bio: "Com mais de três décadas de dedicação ao mercado de seguros, Rogério iniciou sua trajetória em 1989 na Itaú Seguros antes de empreender e fundar a Freeman Corretora. É formado e pós-graduado em Administração de Empresas, e divide sua expertise como professor da Escola de Negócios e Seguros (ENS) e palestrante. Atua ativamente como liderança no Sincor-SP, reforçando seu compromisso com a ética e o desenvolvimento do setor.",
+  },
+  {
+    role: "Head de Operações e Inovação",
+    name: "Igor Freeman",
+    photo: igorPhoto,
+    bio: "Publicitário de formação, Igor ingressou na Freeman Corretora em 2020 para liderar o processo sucessório e a transformação digital do negócio. Sua entrada marcou um novo capítulo para a empresa, unindo a tradição de mercado da corretora com inovação, comunicação ágil e uma identidade visual moderna, pensada para o cliente contemporâneo.",
+  },
 ];
 
 const VALUES = [
@@ -31,12 +41,31 @@ const TIMELINE = [
   { year: "1989", label: "Fundação em Santos/SP" },
   { year: "2002", label: "Expansão para grandes contas" },
   { year: "2015", label: "Operações nacionais" },
-  { year: "2025", label: "500+ empresas atendidas" },
+  { year: String(new Date().getFullYear()), label: "500+ empresas atendidas" },
 ];
 
 export default function SobrePage() {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const [timelineVisible, setTimelineVisible] = useState(false);
+
   useEffect(() => {
     document.title = "Sobre a Freeman — 35 anos de tradição em seguros corporativos";
+  }, []);
+
+  useEffect(() => {
+    const el = timelineRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimelineVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -61,25 +90,8 @@ export default function SobrePage() {
 
       {/* INSTITUTIONAL SPLIT */}
       <section className="bg-background py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 lg:grid-cols-2">
-          <div className="flex items-start justify-center gap-10 sm:gap-16">
-            {DIRETORIA.map((person) => (
-              <div key={person.role} className="flex flex-col items-center">
-                <div className="h-52 w-52 overflow-hidden rounded-full bg-white sm:h-64 sm:w-64">
-                  <img
-                    src={person.photo}
-                    alt={person.role}
-                    className="h-full w-full object-cover object-top"
-                  />
-                </div>
-                <p className="mt-2 font-sans text-base font-semibold text-graphite">
-                  {person.name}
-                </p>
-                <p className="mt-1 font-sans text-sm text-graphite/70">{person.role}</p>
-              </div>
-            ))}
-          </div>
-          <div>
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-16 lg:mb-20">
             <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-accent-red">
               35 anos de história
             </p>
@@ -104,6 +116,23 @@ export default function SobrePage() {
                 sinistros para que sua empresa nunca pare.
               </p>
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-12">
+            {DIRETORIA.map((person) => (
+              <div key={person.role} className="flex flex-col items-center text-center">
+                <div className="h-56 w-56 overflow-hidden rounded-full bg-surface-soft sm:h-64 sm:w-64">
+                  <img src={person.photo} alt={person.name} className="h-full w-full" />
+                </div>
+                <p className="mt-8 font-sans text-2xl font-bold text-graphite">{person.name}</p>
+                <p className="mt-1 font-sans text-xs font-bold uppercase tracking-widest text-accent-red">
+                  {person.role}
+                </p>
+                <p className="mx-auto mt-5 max-w-md font-sans text-sm leading-relaxed text-graphite/80">
+                  {person.bio}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -135,15 +164,57 @@ export default function SobrePage() {
           <div className="mb-16 text-center">
             <h2 className="text-4xl md:text-5xl">Linha do tempo</h2>
           </div>
-          <div className="relative grid grid-cols-2 gap-10 md:grid-cols-4">
-            <div className="absolute left-0 right-0 top-3 hidden h-px bg-divider md:block" />
-            {TIMELINE.map((m) => (
-              <div key={m.year} className="relative text-center">
-                <div className="mx-auto h-6 w-6 rounded-full border-4 border-background bg-navy" />
-                <div className="mt-5 font-sans text-3xl font-black text-navy">{m.year}</div>
-                <div className="mt-2 font-sans text-sm text-graphite">{m.label}</div>
-              </div>
-            ))}
+          <div ref={timelineRef} className="relative grid grid-cols-2 gap-10 md:grid-cols-4">
+            {/* animated line */}
+            <div className="absolute left-0 right-0 top-3 hidden h-px overflow-hidden md:block">
+              <div
+                className="h-full bg-divider transition-transform duration-[1200ms] ease-out"
+                style={{
+                  transformOrigin: "left",
+                  transform: timelineVisible ? "scaleX(1)" : "scaleX(0)",
+                }}
+              />
+            </div>
+
+            {TIMELINE.map((m, i) => {
+              const isLast = i === TIMELINE.length - 1;
+              const dotDelay = 300 + i * 280;
+              const contentDelay = 450 + i * 280;
+              return (
+                <div key={m.year} className="relative text-center">
+                  <div
+                    className="mx-auto h-6 w-6 rounded-full border-4 border-background transition-all duration-500"
+                    style={{
+                      backgroundColor: isLast ? (timelineVisible ? "#c83d3d" : "#212543") : "#212543",
+                      opacity: timelineVisible ? 1 : 0,
+                      transform: timelineVisible ? "scale(1)" : "scale(0)",
+                      transitionDelay: `${dotDelay}ms`,
+                    }}
+                  />
+                  <div
+                    className="mt-5 font-sans text-3xl font-black transition-all duration-500"
+                    style={{
+                      color: isLast ? "#c83d3d" : "#212543",
+                      opacity: timelineVisible ? 1 : 0,
+                      transform: timelineVisible ? "translateY(0)" : "translateY(12px)",
+                      transitionDelay: `${contentDelay}ms`,
+                    }}
+                  >
+                    {m.year}
+                  </div>
+                  <div
+                    className="mt-2 font-sans text-sm text-graphite transition-all duration-500"
+                    style={{
+                      opacity: timelineVisible ? 1 : 0,
+                      transform: timelineVisible ? "translateY(0)" : "translateY(8px)",
+                      transitionDelay: `${contentDelay + 60}ms`,
+                    }}
+                  >
+                    {m.label}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

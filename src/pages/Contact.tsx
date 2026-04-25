@@ -52,8 +52,8 @@ export default function ContatoPage() {
 
   const set =
     (k: FormKey) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-      setForm((prev) => ({ ...prev, [k]: e.target.value }));
+      (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+        setForm((prev) => ({ ...prev, [k]: e.target.value }));
 
   const inputClass = (k: FormKey) =>
     [
@@ -104,7 +104,7 @@ export default function ContatoPage() {
                 {
                   icon: MapPin,
                   label: "Endereço",
-                  value: "Av. Ana Costa, 000 — Gonzaga\nSantos/SP — CEP 11060-000",
+                  value: "Av. Senador Feijó, 686 — Sala 1525\nSantos/SP",
                 },
                 { icon: Phone, label: "Telefone", value: "+55 (13) 0000-0000" },
                 { icon: Mail, label: "E-mail", value: "contato@freemancorretora.com.br" },
@@ -130,11 +130,21 @@ export default function ContatoPage() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-10 inline-flex items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-opacity hover:opacity-90"
+              className="mt-10 inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-opacity hover:opacity-90"
             >
               <MessageCircle className="h-5 w-5" />
               Falar no WhatsApp
             </a>
+
+            {/* MAP EMBED */}
+            <div className="mt-12 overflow-hidden rounded-[4px] border border-divider shadow-sm">
+              <iframe
+                title="Localização Freeman Corretora — Santos/SP"
+                src="https://www.google.com/maps?q=Av.+Senador+Feij%C3%B3,+686+-+Santos,+SP&output=embed"
+                className="block h-64 w-full sm:h-72"
+                loading="lazy"
+              />
+            </div>
           </div>
 
           {/* FORM */}
@@ -261,15 +271,6 @@ export default function ContatoPage() {
         </div>
       </section>
 
-      {/* MAP */}
-      <section className="border-t border-divider">
-        <iframe
-          title="Localização Freeman Corretora — Santos/SP"
-          src="https://www.google.com/maps?q=Gonzaga,Santos,SP&output=embed"
-          className="block h-80 w-full grayscale"
-          loading="lazy"
-        />
-      </section>
     </>
   );
 }
