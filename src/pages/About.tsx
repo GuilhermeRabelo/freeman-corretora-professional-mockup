@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Eye, Award, Users } from "lucide-react";
 import shieldWhite from "@/assets/logo-shield-white.png";
-import rogerioPhoto from "@/assets/rogerio.png";
-import igorPhoto from "@/assets/igor.png";
+import rogerioPhoto from "@/assets/rogerio.webp";
+import igorPhoto from "@/assets/igor.webp";
 
 const DIRETORIA = [
   {
@@ -44,13 +44,13 @@ const TIMELINE = [
   { year: String(new Date().getFullYear()), label: "500+ empresas atendidas" },
 ];
 
+const PAGE_TITLE = "Sobre — 35 anos de tradição em seguros corporativos | Freeman";
+const PAGE_DESCRIPTION =
+  "Conheça a história da Freeman Corretora, fundada em 1989 em Santos/SP. Tradição, ética e expertise técnica para proteger empresas em todo o Brasil.";
+
 export default function SobrePage() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [timelineVisible, setTimelineVisible] = useState(false);
-
-  useEffect(() => {
-    document.title = "Sobre a Freeman — 35 anos de tradição em seguros corporativos";
-  }, []);
 
   useEffect(() => {
     const el = timelineRef.current;
@@ -70,6 +70,11 @@ export default function SobrePage() {
 
   return (
     <>
+      <title>{PAGE_TITLE}</title>
+      <meta name="description" content={PAGE_DESCRIPTION} />
+      <meta property="og:title" content={PAGE_TITLE} />
+      <meta property="og:description" content={PAGE_DESCRIPTION} />
+      <meta property="og:type" content="website" />
       {/* INTERNAL HERO */}
       <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
         <div className="mx-auto max-w-4xl px-6">
@@ -77,7 +82,9 @@ export default function SobrePage() {
             Quem somos
           </p>
           <h1 className="mt-4 text-5xl md:text-6xl">Sobre a Freeman</h1>
-          <p className="mt-5 font-sans text-lg text-white/80">Tradição, Ética e Foco em Resultados.</p>
+          <p className="mt-5 font-sans text-lg text-white/80">
+            Tradição, Ética e Foco em Resultados.
+          </p>
         </div>
         <img
           src={shieldWhite}
@@ -112,8 +119,8 @@ export default function SobrePage() {
               </p>
               <p>
                 Nossa abordagem é consultiva: começa com diagnóstico de riscos, segue com
-                concorrência entre as principais seguradoras e termina com gestão ativa de
-                sinistros para que sua empresa nunca pare.
+                concorrência entre as principais seguradoras e termina com gestão ativa de sinistros
+                para que sua empresa nunca pare.
               </p>
             </div>
           </div>
@@ -164,8 +171,11 @@ export default function SobrePage() {
           <div className="mb-16 text-center">
             <h2 className="text-4xl md:text-5xl">Linha do tempo</h2>
           </div>
-          <div ref={timelineRef} className="relative grid grid-cols-2 gap-10 md:grid-cols-4">
-            {/* animated line */}
+          <div
+            ref={timelineRef}
+            className="relative grid grid-cols-1 gap-0 md:grid-cols-4 md:gap-10"
+          >
+            {/* horizontal animated line — desktop */}
             <div className="absolute left-0 right-0 top-3 hidden h-px overflow-hidden md:block">
               <div
                 className="h-full bg-divider transition-transform duration-[1200ms] ease-out"
@@ -181,36 +191,49 @@ export default function SobrePage() {
               const dotDelay = 300 + i * 280;
               const contentDelay = 450 + i * 280;
               return (
-                <div key={m.year} className="relative text-center">
+                <div
+                  key={m.year}
+                  className="relative flex gap-5 pb-10 last:pb-0 md:block md:gap-0 md:pb-0 md:text-center"
+                >
+                  {/* vertical connector — mobile only */}
+                  {!isLast && (
+                    <div className="absolute left-3 top-6 bottom-0 w-px -translate-x-1/2 bg-divider md:hidden" />
+                  )}
                   <div
-                    className="mx-auto h-6 w-6 rounded-full border-4 border-background transition-all duration-500"
+                    className="h-6 w-6 shrink-0 rounded-full border-4 border-background transition-all duration-500 md:mx-auto"
                     style={{
-                      backgroundColor: isLast ? (timelineVisible ? "#c83d3d" : "#212543") : "#212543",
+                      backgroundColor: isLast
+                        ? timelineVisible
+                          ? "#c83d3d"
+                          : "#212543"
+                        : "#212543",
                       opacity: timelineVisible ? 1 : 0,
                       transform: timelineVisible ? "scale(1)" : "scale(0)",
                       transitionDelay: `${dotDelay}ms`,
                     }}
                   />
-                  <div
-                    className="mt-5 font-sans text-3xl font-black transition-all duration-500"
-                    style={{
-                      color: isLast ? "#c83d3d" : "#212543",
-                      opacity: timelineVisible ? 1 : 0,
-                      transform: timelineVisible ? "translateY(0)" : "translateY(12px)",
-                      transitionDelay: `${contentDelay}ms`,
-                    }}
-                  >
-                    {m.year}
-                  </div>
-                  <div
-                    className="mt-2 font-sans text-sm text-graphite transition-all duration-500"
-                    style={{
-                      opacity: timelineVisible ? 1 : 0,
-                      transform: timelineVisible ? "translateY(0)" : "translateY(8px)",
-                      transitionDelay: `${contentDelay + 60}ms`,
-                    }}
-                  >
-                    {m.label}
+                  <div className="md:mt-5">
+                    <div
+                      className="font-sans text-3xl font-black transition-all duration-500"
+                      style={{
+                        color: isLast ? "#c83d3d" : "#212543",
+                        opacity: timelineVisible ? 1 : 0,
+                        transform: timelineVisible ? "translateY(0)" : "translateY(12px)",
+                        transitionDelay: `${contentDelay}ms`,
+                      }}
+                    >
+                      {m.year}
+                    </div>
+                    <div
+                      className="mt-2 font-sans text-sm text-graphite transition-all duration-500"
+                      style={{
+                        opacity: timelineVisible ? 1 : 0,
+                        transform: timelineVisible ? "translateY(0)" : "translateY(8px)",
+                        transitionDelay: `${contentDelay + 60}ms`,
+                      }}
+                    >
+                      {m.label}
+                    </div>
                   </div>
                 </div>
               );

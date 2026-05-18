@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import { ArrowUpRight, Search, ClipboardList, PenLine, LifeBuoy } from "lucide-react";
@@ -47,19 +46,36 @@ const SERVICES = [
 ];
 
 const PROCESS = [
-  { icon: Search, title: "Diagnóstico", desc: "Mapeamos riscos e necessidades específicas da sua operação." },
-  { icon: ClipboardList, title: "Cotação", desc: "Concorrência entre as principais seguradoras do mercado." },
-  { icon: PenLine, title: "Contratação", desc: "Apólice estruturada com cláusulas adequadas à sua realidade." },
+  {
+    icon: Search,
+    title: "Diagnóstico",
+    desc: "Mapeamos riscos e necessidades específicas da sua operação.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Cotação",
+    desc: "Concorrência entre as principais seguradoras do mercado.",
+  },
+  {
+    icon: PenLine,
+    title: "Contratação",
+    desc: "Apólice estruturada com cláusulas adequadas à sua realidade.",
+  },
   { icon: LifeBuoy, title: "Sinistro", desc: "Acompanhamento dedicado da abertura à indenização." },
 ];
 
-export default function ServicosPage() {
-  useEffect(() => {
-    document.title = "Serviços — Seguros Corporativos | Freeman Corretora";
-  }, []);
+const PAGE_TITLE = "Serviços — Seguros Corporativos | Freeman Corretora";
+const PAGE_DESCRIPTION =
+  "8 linhas de seguros corporativos: engenharia, D&O, patrimonial, frota, vida em grupo, RC, garantia e transportes. Atendimento dedicado em Santos/SP.";
 
+export default function ServicosPage() {
   return (
     <>
+      <title>{PAGE_TITLE}</title>
+      <meta name="description" content={PAGE_DESCRIPTION} />
+      <meta property="og:title" content={PAGE_TITLE} />
+      <meta property="og:description" content={PAGE_DESCRIPTION} />
+      <meta property="og:type" content="website" />
       {/* INTERNAL HERO */}
       <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
         <div className="mx-auto max-w-4xl px-6">
@@ -91,8 +107,8 @@ export default function ServicosPage() {
               <h2 className="mt-3 text-4xl md:text-5xl">Oito frentes. Uma corretora.</h2>
             </div>
             <p className="max-w-md font-sans text-sm leading-relaxed text-graphite">
-              Cada apólice é estruturada com cláusulas adequadas à realidade da operação — sem pacote
-              pronto, sem letra miúda.
+              Cada apólice é estruturada com cláusulas adequadas à realidade da operação — sem
+              pacote pronto, sem letra miúda.
             </p>
           </div>
 

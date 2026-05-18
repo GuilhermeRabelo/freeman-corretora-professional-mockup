@@ -62,15 +62,23 @@
   --radius: 0.25rem;
 
   /* Freeman brand tokens */
-  --navy: oklch(0.265 0.062 274);          /* #212543 */
-  --navy-medium: oklch(0.345 0.072 275);   /* #333967 */
-  --graphite: oklch(0.345 0.012 270);      /* #3b3f47 */
-  --divider: oklch(0.82 0 0);              /* #bfbfbf */
-  --offwhite: oklch(0.992 0 0);            /* #fdfdfd */
-  --surface-soft: oklch(0.975 0.002 270);  /* #f8f9fa */
-  --whatsapp: oklch(0.87 0.18 145);        /* #8cef7d */
+  --navy: oklch(0.265 0.062 274);
+  /* #212543 */
+  --navy-medium: oklch(0.345 0.072 275);
+  /* #333967 */
+  --graphite: oklch(0.345 0.012 270);
+  /* #3b3f47 */
+  --divider: oklch(0.82 0 0);
+  /* #bfbfbf */
+  --offwhite: oklch(0.992 0 0);
+  /* #fdfdfd */
+  --surface-soft: oklch(0.975 0.002 270);
+  /* #f8f9fa */
+  --whatsapp: oklch(0.87 0.18 145);
+  /* #8cef7d */
   --whatsapp-foreground: oklch(0.265 0.062 274);
-  --accent-red: oklch(0.555 0.185 27);     /* #c83d3d */
+  --accent-red: oklch(0.555 0.185 27);
+  /* #c83d3d */
 
   --background: oklch(1 0 0);
   --foreground: var(--graphite);
@@ -144,15 +152,21 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-family: var(--font-display);
     color: var(--color-navy);
     letter-spacing: 0.01em;
   }
 
   /* Auto-inverte heading em seções escuras da marca — elimina uso de !text-white */
-  .bg-navy h1, .bg-navy h2, .bg-navy h3,
-  .bg-navy-medium h1, .bg-navy-medium h2, .bg-navy-medium h3 {
+  .bg-navy h1,
+  .bg-navy h2,
+  .bg-navy h3,
+  .bg-navy-medium h1,
+  .bg-navy-medium h2,
+  .bg-navy-medium h3 {
     color: white;
   }
 
@@ -165,8 +179,13 @@
 }
 
 @keyframes marquee-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {

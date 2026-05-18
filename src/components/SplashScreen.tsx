@@ -8,10 +8,7 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
 
   useEffect(() => {
     const fadeTimer = window.setTimeout(() => setIsFadingOut(true), SPLASH_DURATION_MS);
-    const doneTimer = window.setTimeout(
-      () => onComplete(),
-      SPLASH_DURATION_MS + FADE_DURATION_MS,
-    );
+    const doneTimer = window.setTimeout(() => onComplete(), SPLASH_DURATION_MS + FADE_DURATION_MS);
     return () => {
       window.clearTimeout(fadeTimer);
       window.clearTimeout(doneTimer);
@@ -41,21 +38,9 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
             </linearGradient>
 
             <mask id="freeman-logo-shape-mask">
-              <path
-                fill="white"
-                transform="translate(0, 2426) scale(0.1, -0.1)"
-                d={SHIELD_PATH}
-              />
-              <path
-                fill="white"
-                transform="translate(0, 2426) scale(0.1, -0.1)"
-                d={PEN_F_PATH}
-              />
-              <path
-                fill="white"
-                transform="translate(0, 2426) scale(0.1, -0.1)"
-                d={DOT_PATH}
-              />
+              <path fill="white" transform="translate(0, 2426) scale(0.1, -0.1)" d={SHIELD_PATH} />
+              <path fill="white" transform="translate(0, 2426) scale(0.1, -0.1)" d={PEN_F_PATH} />
+              <path fill="white" transform="translate(0, 2426) scale(0.1, -0.1)" d={DOT_PATH} />
             </mask>
           </defs>
 
@@ -112,7 +97,9 @@ const splashStyles = `
   justify-content: center;
   z-index: 9999;
   opacity: 1;
-  transition: opacity 600ms ease, visibility 600ms ease;
+  transition:
+    opacity 600ms cubic-bezier(0.83, 0, 0.17, 1),
+    visibility 600ms cubic-bezier(0.83, 0, 0.17, 1);
 }
 
 .freeman-splash--fade-out {
@@ -127,6 +114,14 @@ const splashStyles = `
   align-items: center;
   justify-content: center;
   font-family: "Montserrat", system-ui, sans-serif;
+  line-height: 1;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 600ms cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.freeman-splash--fade-out .freeman-splash__inner {
+  transform: scale(1.18);
 }
 
 .freeman-splash__logo {
@@ -187,7 +182,7 @@ const splashStyles = `
 
 .freeman-splash__wordmark span {
   font-size: clamp(2.25rem, 7vw, 3.8rem);
-  font-weight: 900;
+  font-weight: 800;
   color: #212543;
   letter-spacing: 0.02em;
   display: inline-block;
@@ -234,6 +229,12 @@ const splashStyles = `
     opacity: 1;
     transform: none;
     clip-path: none;
+  }
+
+  .freeman-splash__inner,
+  .freeman-splash--fade-out .freeman-splash__inner {
+    transition: none;
+    transform: none;
   }
 }
 `;

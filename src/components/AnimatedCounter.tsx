@@ -33,7 +33,7 @@ export function AnimatedCounter({ end, suffix = "", duration = 3500, className }
           }
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     observer.observe(el);

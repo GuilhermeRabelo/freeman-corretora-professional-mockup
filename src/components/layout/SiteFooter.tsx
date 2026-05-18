@@ -25,17 +25,31 @@ export function SiteFooter() {
               Navegação
             </h4>
             <ul className="space-y-3 font-sans text-sm text-white/75">
-              <li><Link to="/" className="hover:text-white">Home</Link></li>
-              <li><Link to="/sobre" className="hover:text-white">Sobre</Link></li>
-              <li><Link to="/servicos" className="hover:text-white">Serviços</Link></li>
-              <li><Link to="/contato" className="hover:text-white">Contato</Link></li>
+              <li>
+                <Link to="/" className="hover:text-white">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/sobre" className="hover:text-white">
+                  Sobre
+                </Link>
+              </li>
+              <li>
+                <Link to="/servicos" className="hover:text-white">
+                  Serviços
+                </Link>
+              </li>
+              <li>
+                <Link to="/contato" className="hover:text-white">
+                  Contato
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
-              Contato
-            </h4>
+            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Contato</h4>
             <ul className="space-y-3 font-sans text-sm text-white/75">
               <li>+55 (13) 0000-0000</li>
               <li>contato@freemancorretora.com.br</li>
@@ -44,12 +58,12 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
-              Endereço
-            </h4>
+            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Endereço</h4>
             <p className="font-sans text-sm leading-relaxed text-white/75">
-              Av. Ana Costa, 000<br />
-              Gonzaga · Santos/SP<br />
+              Av. Ana Costa, 000
+              <br />
+              Gonzaga · Santos/SP
+              <br />
               CEP 11060-000
             </p>
           </div>
@@ -63,8 +77,7 @@ export function SiteFooter() {
 
         <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 font-sans text-xs text-white/50 md:flex-row md:justify-between">
           <span>
-            © {new Date().getFullYear()} Freeman Corretora de Seguros. Todos os direitos
-            reservados.
+            © {new Date().getFullYear()} Freeman Corretora de Seguros. Todos os direitos reservados.
           </span>
           <span>SUSEP nº 00000000 · CNPJ 36.756.226/0001-64</span>
         </div>

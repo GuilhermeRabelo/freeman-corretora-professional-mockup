@@ -14,7 +14,9 @@
       "PowerShell(Get-ChildItem *)",
       "WebFetch(domain:skills.sh)",
       "Bash(npx skills *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npx --yes lighthouse --version)",
+      "Bash(npx tsc *)"
     ]
   }
 }

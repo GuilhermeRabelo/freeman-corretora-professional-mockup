@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 
 const WHATSAPP_URL =
@@ -31,11 +31,11 @@ function getError(form: Record<FormKey, string>, k: FormKey): string {
   return form[k].trim() === "" ? "Campo obrigatório" : "";
 }
 
-export default function ContatoPage() {
-  useEffect(() => {
-    document.title = "Contato — Freeman Corretora | Santos/SP";
-  }, []);
+const PAGE_TITLE = "Contato — Freeman Corretora | Santos/SP";
+const PAGE_DESCRIPTION =
+  "Solicite cotação ou fale com um especialista da Freeman Corretora. Atendimento dedicado em Santos/SP e em todo o Brasil.";
 
+export default function ContatoPage() {
   const [form, setForm] = useState<Record<FormKey, string>>({
     nome: "",
     empresa: "",
@@ -52,8 +52,8 @@ export default function ContatoPage() {
 
   const set =
     (k: FormKey) =>
-      (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-        setForm((prev) => ({ ...prev, [k]: e.target.value }));
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      setForm((prev) => ({ ...prev, [k]: e.target.value }));
 
   const inputClass = (k: FormKey) =>
     [
@@ -84,6 +84,11 @@ export default function ContatoPage() {
 
   return (
     <>
+      <title>{PAGE_TITLE}</title>
+      <meta name="description" content={PAGE_DESCRIPTION} />
+      <meta property="og:title" content={PAGE_TITLE} />
+      <meta property="og:description" content={PAGE_DESCRIPTION} />
+      <meta property="og:type" content="website" />
       <section className="bg-background py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2">
           {/* INFO */}
@@ -270,7 +275,6 @@ export default function ContatoPage() {
           </form>
         </div>
       </section>
-
     </>
   );
 }

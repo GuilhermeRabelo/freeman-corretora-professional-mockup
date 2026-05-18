@@ -22,6 +22,7 @@ No test suite is configured.
 **Stack**: React 19 + TypeScript, Vite 7, React Router v6, Tailwind CSS 4, Shadcn/ui (new-york style).
 
 **Routing** is configured in `src/App.tsx` using React Router v6 `<BrowserRouter>`. Pages live in `src/pages/`:
+
 - `Index.tsx` — Home (hero, stats, service preview, partners, CTA)
 - `Servicos.tsx` — Services (8 service cards, 4-step process)
 - `Sobre.tsx` — About (company story, values, timeline)
@@ -40,21 +41,22 @@ No test suite is configured.
 
 Custom Tailwind theme tokens (defined in `src/styles.css` `@theme` block):
 
-| Token | Value | Use |
-|-------|-------|-----|
-| `--navy` | `#212543` | Primary brand (header, footer, CTAs) |
-| `--navy-medium` | `#333967` | Secondary navy |
-| `--graphite` | `#3b3f47` | Body text |
-| `--offwhite` | `#fdfdfd` | Light backgrounds |
-| `--surface-soft` | `#f8f9fa` | Card backgrounds |
-| `--accent-red` | `#c83d3d` | Destructive/warning accents |
-| `--whatsapp` | `#8cef7d` | WhatsApp FAB color |
+| Token            | Value     | Use                                  |
+| ---------------- | --------- | ------------------------------------ |
+| `--navy`         | `#212543` | Primary brand (header, footer, CTAs) |
+| `--navy-medium`  | `#333967` | Secondary navy                       |
+| `--graphite`     | `#3b3f47` | Body text                            |
+| `--offwhite`     | `#fdfdfd` | Light backgrounds                    |
+| `--surface-soft` | `#f8f9fa` | Card backgrounds                     |
+| `--accent-red`   | `#c83d3d` | Destructive/warning accents          |
+| `--whatsapp`     | `#8cef7d` | WhatsApp FAB color                   |
 
 **Prettier config** (`.prettierrc`): `printWidth: 100`, `semi: true`, double quotes, trailing commas.
 
 ## Contact Details (currently placeholders)
 
 All contact info is hardcoded — no env vars. When updating to real values, search for:
+
 - Phone: `+55 (13) 0000-0000`
 - WhatsApp URL: `https://wa.me/5513000000000`
 - Email: `contato@freemancorretora.com.br`
