@@ -44,7 +44,7 @@ export default function App() {
           }}
         />
       )}
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <ScrollToTop />
         <Routes>
           <Route element={<SiteLayout />}>
