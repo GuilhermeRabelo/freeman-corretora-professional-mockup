@@ -1,6 +1,5 @@
 @import "tailwindcss" source(none);
 @source "../src";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -188,10 +187,12 @@
   }
 }
 
-.animate-marquee {
-  animation: marquee-left 30s linear infinite;
-}
+@layer utilities {
+  .animate-marquee {
+    animation: marquee-left 30s linear infinite;
+  }
 
-.marquee-mask {
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
 }

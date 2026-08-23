@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import {
-  HardHat,
-  Briefcase,
-  FileCheck2,
   Building2,
-  Truck,
+  Stethoscope,
+  Car,
+  Home as HomeIcon,
+  Building,
   HeartPulse,
-  ShieldCheck,
-  Container,
+  Plane,
+  HandCoins,
   ArrowRight,
   ArrowUpRight,
   Search,
@@ -17,43 +17,52 @@ import {
   Quote,
 } from "lucide-react";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
-import heroImg from "@/assets/hero-corporate.jpg";
+import heroImg from "@/assets/logo-freeman-parede.png";
 import shieldWhite from "@/assets/logo-shield-white.png";
+import portoLogo from "@/assets/partners/porto.svg";
+import azulSegurosLogo from "@/assets/partners/azul-seguros.svg";
+import hdiLogo from "@/assets/partners/hdi-seguros.svg";
+import yelumLogo from "@/assets/partners/yelum-seguradora.svg";
+import aliroLogo from "@/assets/partners/aliro-seguro.png";
+import tokioMarineLogo from "@/assets/partners/tokio-marine.svg";
+import suhaiLogo from "@/assets/partners/suhai-seguradora.svg";
+import allianzLogo from "@/assets/partners/allianz.svg";
+import bradescoSegurosLogo from "@/assets/partners/bradesco-seguros.svg";
 
 const STATS = [
   { end: 35, suffix: "+", label: "Anos de Mercado" },
-  { end: 500, suffix: "+", label: "Empresas Atendidas" },
-  { end: 20, suffix: "+", label: "Seguradoras Parceiras" },
-  { end: 8, suffix: "", label: "Linhas de Negócio" },
+  { end: 50000, suffix: "+", label: "Apólices" },
+  { end: 30, suffix: "+", label: "Seguradoras e Operadoras" },
+  { end: 2000, suffix: "+", label: "Clientes" },
 ];
 
 const FEATURED = [
   {
-    icon: HardHat,
-    title: "Riscos de Engenharia",
-    desc: "Obras civis, montagem industrial e instalações em construção — análise técnica do projeto e cobertura para quebra de máquinas.",
+    icon: Building2,
+    title: "Seguro Empresarial",
+    desc: "Soluções para proteger o patrimônio e a continuidade do seu negócio diante de imprevistos.",
     tag: "Especialidade",
   },
   {
-    icon: Briefcase,
-    title: "D&O — Administradores",
-    desc: "Proteção patrimonial pessoal de executivos, conselheiros e administradores frente a decisões de gestão.",
+    icon: Stethoscope,
+    title: "Plano de Saúde",
+    desc: "Encontre o plano ideal para você, sua família ou sua empresa, comparando as melhores opções de operadoras, redes e benefícios.",
     tag: "Especialidade",
   },
   {
-    icon: FileCheck2,
-    title: "Seguro Garantia",
-    desc: "Licitações, contratos públicos e privados, judicial e aduaneiro — agilidade na emissão e cláusulas adequadas.",
+    icon: Car,
+    title: "Seguro Automóvel",
+    desc: "Proteção para o seu veículo, com coberturas e assistências escolhidas de acordo com o seu perfil.",
     tag: "Especialidade",
   },
 ];
 
 const SECONDARY = [
-  { icon: Building2, title: "Patrimonial Empresarial" },
-  { icon: Truck, title: "Frota & Auto" },
-  { icon: HeartPulse, title: "Vida em Grupo" },
-  { icon: ShieldCheck, title: "Responsabilidade Civil" },
-  { icon: Container, title: "Transportes" },
+  { icon: HomeIcon, title: "Seguro Residencial" },
+  { icon: Building, title: "Seguro Condomínio" },
+  { icon: HeartPulse, title: "Seguro de Vida" },
+  { icon: Plane, title: "Seguro Viagem" },
+  { icon: HandCoins, title: "Consórcio" },
 ];
 
 const PROCESS = [
@@ -96,16 +105,17 @@ const TESTIMONIALS = [
   },
 ];
 
-const CLIENTS = [
-  "VERTAGO LOG.",
-  "MARINEX",
-  "CONSTRUTORA HORIZONTE",
-  "INDÚSTRIAS PALMARES",
-  "GRUPO ATLÂNTICO",
-  "PORTUS TERMINAIS",
+const PARTNERS = [
+  { name: "Porto", logo: portoLogo },
+  { name: "Azul Seguros", logo: azulSegurosLogo },
+  { name: "HDI", logo: hdiLogo },
+  { name: "Yelum Seguradora", logo: yelumLogo },
+  { name: "Aliro Seguro", logo: aliroLogo },
+  { name: "Tokio Marine", logo: tokioMarineLogo },
+  { name: "Suhai Seguradora", logo: suhaiLogo },
+  { name: "Allianz", logo: allianzLogo },
+  { name: "Bradesco Seguros", logo: bradescoSegurosLogo },
 ];
-
-const PARTNERS = ["PORTO", "ALLIANZ", "TOKIO MARINE", "BRADESCO", "SULAMÉRICA", "MAPFRE"];
 
 const PAGE_TITLE = "Freeman Corretora — Seguros corporativos em Santos/SP";
 const PAGE_DESCRIPTION =
@@ -121,13 +131,56 @@ export default function IndexPage() {
       <meta property="og:type" content="website" />
       {/* HERO */}
       <section className="relative overflow-hidden bg-navy text-white">
-        <div className="mx-auto grid min-h-[80vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-0">
-          <div className="relative z-10">
+        {/* Backdrop image — tablet & mobile: subtle full-bleed texture behind the text */}
+        <div className="absolute inset-0 lg:hidden">
+          <img
+            src={heroImg}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover object-[60%_26%] opacity-[0.28] [filter:saturate(0.78)_contrast(1.05)_brightness(0.92)]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/55 via-navy/92 to-navy" />
+        </div>
+
+        {/* Feature image — desktop: bleeds past the container to the viewport's right edge */}
+        <div className="pointer-events-none absolute inset-y-0 left-1/2 right-0 hidden overflow-hidden lg:block">
+          <img
+            src={heroImg}
+            alt="Logo da Freeman Corretora aplicada na parede do escritório"
+            width={1535}
+            height={1024}
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full translate-y-[9%] scale-125 object-cover object-[40%_60%] [filter:saturate(0.76)_contrast(1.08)_brightness(0.96)]"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to right, var(--color-navy) 0%, color-mix(in srgb, var(--color-navy) 70%, transparent) 18%, color-mix(in srgb, var(--color-navy) 40%, transparent) 38%, color-mix(in srgb, var(--color-navy) 15%, transparent) 60%, transparent 85%)",
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 60% 40%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 35%, transparent 60%)",
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              boxShadow: "inset 0 0 140px 10px rgba(33,37,67,0.35)",
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 mx-auto grid min-h-[80vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-0">
+          <div>
             <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
               Corretora de Seguros · Desde 1989
             </p>
             <h1 className="mt-6 text-5xl leading-[1.05] md:text-6xl lg:text-7xl">
-              Proteção sólida para empresas que não podem parar.
+              Há três décadas protegendo a sua vida e o seu patrimônio.
             </h1>
             <p className="mt-6 max-w-xl font-sans text-base leading-relaxed text-white/80 md:text-lg">
               Com 35 anos de expertise, a Freeman Corretora oferece soluções de seguros corporativos
@@ -148,27 +201,7 @@ export default function IndexPage() {
               </Link>
             </div>
           </div>
-
-          <div className="relative hidden h-[80vh] lg:block">
-            <img
-              src={heroImg}
-              alt="Edifícios corporativos modernos vistos de baixo"
-              width={1280}
-              height={1280}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-navy/30" />
-          </div>
         </div>
-
-        {/* Shield watermark */}
-        <img
-          src={shieldWhite}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-20 -right-20 h-[480px] w-[480px] opacity-[0.04]"
-          loading="lazy"
-        />
       </section>
 
       {/* TRUST BAR */}
@@ -340,42 +373,34 @@ export default function IndexPage() {
           src={shieldWhite}
           alt=""
           aria-hidden="true"
+          width={420}
+          height={420}
           className="pointer-events-none absolute -bottom-32 -left-32 h-[420px] w-[420px] opacity-[0.04]"
           loading="lazy"
         />
       </section>
 
-      {/* SOCIAL PROOF — CLIENTS + INSURERS */}
+      {/* SOCIAL PROOF — INSURERS */}
       <section className="border-y border-divider bg-background py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <p className="text-center font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
-            Empresas que confiam na Freeman
-          </p>
-          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {CLIENTS.map((c) => (
-              <li
-                key={c}
-                className="flex h-14 items-center justify-center border border-divider px-3 font-sans text-[11px] font-black uppercase tracking-[0.18em] text-graphite/80"
-              >
-                {c}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="mx-auto mt-16 max-w-7xl px-6">
           <p className="text-center font-sans text-xs font-semibold uppercase tracking-widest text-graphite">
             Trabalhamos com as maiores seguradoras do mercado
           </p>
         </div>
-        <div className="marquee-mask group mt-8 overflow-hidden">
+        <div className="marquee-mask group mt-8 overflow-hidden pt-10">
           <div className="animate-marquee flex w-max gap-8 pr-8 group-hover:[animation-play-state:paused]">
             {[...PARTNERS, ...PARTNERS].map((p, i) => (
               <div
-                key={`${p}-${i}`}
-                className="flex h-16 w-48 shrink-0 items-center justify-center border border-divider font-sans text-sm font-black uppercase tracking-widest text-graphite/75 grayscale transition-colors hover:text-navy hover:grayscale-0"
+                key={`${p.name}-${i}`}
+                className="group/logo relative flex h-16 shrink-0 items-center justify-center"
               >
-                {p}
+                <img src={p.logo} alt={p.name} className="h-10 w-auto object-contain" />
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2.5 py-1 font-sans text-xs font-semibold text-white opacity-0 shadow-md transition-opacity duration-200 group-hover/logo:opacity-100"
+                >
+                  {p.name}
+                </span>
               </div>
             ))}
           </div>

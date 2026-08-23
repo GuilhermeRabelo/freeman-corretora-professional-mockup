@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 
 const WHATSAPP_URL =
-  "https://wa.me/5513000000000?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o.";
+  "https://wa.me/5513997281866?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o.";
 
 const SEGUROS = [
-  "Patrimonial Empresarial",
-  "Frota & Auto Empresarial",
-  "Vida em Grupo",
-  "Responsabilidade Civil",
-  "D&O",
-  "Riscos de Engenharia",
-  "Garantia",
-  "Transportes",
+  "Seguro Automóvel",
+  "Plano de Saúde",
+  "Seguro Residencial",
+  "Seguro Empresarial",
+  "Seguro Condomínio",
+  "Seguro de Vida",
+  "Seguro Viagem",
+  "Consórcio",
   "Outro",
 ];
 
@@ -36,32 +37,51 @@ const PAGE_DESCRIPTION =
   "Solicite cotação ou fale com um especialista da Freeman Corretora. Atendimento dedicado em Santos/SP e em todo o Brasil.";
 
 export default function ContatoPage() {
+  const [searchParams] = useSearchParams();
+  const seguroParam = searchParams.get("seguro") ?? "";
+
   const [form, setForm] = useState<Record<FormKey, string>>({
     nome: "",
     empresa: "",
     cargo: "",
     telefone: "",
     email: "",
-    seguro: "",
+    seguro: SEGUROS.includes(seguroParam) ? seguroParam : "",
     mensagem: "",
   });
 
   const [touched, setTouched] = useState<Set<FormKey>>(new Set());
 
-  const touch = (k: FormKey) => setTouched((prev) => new Set([...prev, k]));
+  const markTouched = useCallback((k: FormKey) => setTouched((prev) => new Set([...prev, k])), []);
 
-  const set =
-    (k: FormKey) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-      setForm((prev) => ({ ...prev, [k]: e.target.value }));
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setForm((prev) => ({ ...prev, [name]: value }));
+    },
+    [],
+  );
 
-  const inputClass = (k: FormKey) =>
+  const handleBlur = useCallback(
+    (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+      markTouched(e.target.name as FormKey);
+    },
+    [markTouched],
+  );
+
+  const inputClass = (hasError: boolean) =>
     [
       "w-full rounded-[4px] border bg-background px-4 py-3 font-sans text-sm text-graphite focus:outline-none focus:ring-2",
-      touched.has(k) && getError(form, k)
+      hasError
         ? "border-accent-red focus:border-accent-red focus:ring-accent-red/20"
         : "border-divider focus:border-navy focus:ring-navy/20",
     ].join(" ");
+
+  const nomeError = touched.has("nome") ? getError(form, "nome") : "";
+  const empresaError = touched.has("empresa") ? getError(form, "empresa") : "";
+  const telefoneError = touched.has("telefone") ? getError(form, "telefone") : "";
+  const emailError = touched.has("email") ? getError(form, "email") : "";
+  const seguroError = touched.has("seguro") ? getError(form, "seguro") : "";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +99,7 @@ export default function ContatoPage() {
       "Mensagem:",
       form.mensagem,
     ].join("\n");
-    window.location.href = `mailto:contato@freemancorretora.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:contato@freemanseguros.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
@@ -111,8 +131,8 @@ export default function ContatoPage() {
                   label: "Endereço",
                   value: "Av. Senador Feijó, 686 — Sala 1525\nSantos/SP",
                 },
-                { icon: Phone, label: "Telefone", value: "+55 (13) 0000-0000" },
-                { icon: Mail, label: "E-mail", value: "contato@freemancorretora.com.br" },
+                { icon: Phone, label: "Telefone", value: "(13) 99728-1866" },
+                { icon: Mail, label: "E-mail", value: "contato@freemanseguros.com.br" },
                 { icon: Clock, label: "Horário", value: "Segunda a Sexta · 9h às 18h" },
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex gap-4">
@@ -164,84 +184,75 @@ export default function ContatoPage() {
             </p>
 
             <div className="mt-8 space-y-5">
-              <Field
-                label="Nome Completo *"
-                error={touched.has("nome") ? getError(form, "nome") : ""}
-              >
+              <Field label="Nome Completo *" error={nomeError}>
                 <input
                   type="text"
                   required
+                  name="nome"
                   value={form.nome}
-                  onChange={set("nome")}
-                  onBlur={() => touch("nome")}
-                  className={inputClass("nome")}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={inputClass(!!nomeError)}
                 />
               </Field>
 
-              <Field
-                label="Empresa (CNPJ) *"
-                error={touched.has("empresa") ? getError(form, "empresa") : ""}
-              >
+              <Field label="Empresa (CNPJ) *" error={empresaError}>
                 <input
                   type="text"
                   required
+                  name="empresa"
                   value={form.empresa}
-                  onChange={set("empresa")}
-                  onBlur={() => touch("empresa")}
-                  className={inputClass("empresa")}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={inputClass(!!empresaError)}
                 />
               </Field>
 
               <Field label="Cargo">
                 <input
                   type="text"
+                  name="cargo"
                   value={form.cargo}
-                  onChange={set("cargo")}
+                  onChange={handleChange}
                   className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-sm text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
                 />
               </Field>
 
-              <Field
-                label="Telefone Comercial *"
-                error={touched.has("telefone") ? getError(form, "telefone") : ""}
-              >
+              <Field label="Telefone Comercial *" error={telefoneError}>
                 <input
                   type="tel"
                   required
+                  name="telefone"
                   value={form.telefone}
-                  onChange={set("telefone")}
-                  onBlur={() => touch("telefone")}
-                  className={inputClass("telefone")}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={inputClass(!!telefoneError)}
                 />
               </Field>
 
-              <Field
-                label="E-mail Corporativo *"
-                error={touched.has("email") ? getError(form, "email") : ""}
-              >
+              <Field label="E-mail Corporativo *" error={emailError}>
                 <input
                   type="email"
                   required
+                  name="email"
                   value={form.email}
-                  onChange={set("email")}
-                  onBlur={() => touch("email")}
-                  className={inputClass("email")}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={inputClass(!!emailError)}
                 />
               </Field>
 
-              <Field
-                label="Seguro de Interesse *"
-                error={touched.has("seguro") ? getError(form, "seguro") : ""}
-              >
+              <Field label="Seguro de Interesse *" error={seguroError}>
                 <select
                   required
+                  name="seguro"
                   value={form.seguro}
                   onChange={(e) => {
-                    set("seguro")(e);
-                    touch("seguro");
+                    handleChange(e);
+                    markTouched("seguro");
                   }}
-                  onBlur={() => touch("seguro")}
-                  className={inputClass("seguro")}
+                  onBlur={handleBlur}
+                  className={inputClass(!!seguroError)}
                 >
                   <option value="">Selecione…</option>
                   {SEGUROS.map((s) => (
@@ -255,8 +266,9 @@ export default function ContatoPage() {
               <Field label="Mensagem">
                 <textarea
                   rows={4}
+                  name="mensagem"
                   value={form.mensagem}
-                  onChange={set("mensagem")}
+                  onChange={handleChange}
                   className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-sm text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
                 />
               </Field>

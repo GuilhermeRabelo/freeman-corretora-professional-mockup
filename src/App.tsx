@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { SiteLayout } from "./components/layout/SiteLayout";
 import { SplashScreen } from "./components/SplashScreen";
 import Index from "./pages/Index";
-import Services from "./pages/Services";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
+
+const Services = lazy(() => import("./pages/Services"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const SPLASH_SESSION_KEY = "freeman-splash-shown";
 
@@ -46,15 +47,17 @@ export default function App() {
       )}
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <ScrollToTop />
-        <Routes>
-          <Route element={<SiteLayout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/servicos" element={<Services />} />
-            <Route path="/sobre" element={<About />} />
-            <Route path="/contato" element={<Contact />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route element={<SiteLayout />}>
+              <Route path="/" element={<Index />} />
+              <Route path="/servicos" element={<Services />} />
+              <Route path="/sobre" element={<About />} />
+              <Route path="/contato" element={<Contact />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </>
   );

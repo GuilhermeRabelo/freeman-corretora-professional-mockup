@@ -9,13 +9,13 @@ const DIRETORIA = [
     role: "Sócio-Fundador",
     name: "Rogério Freeman",
     photo: rogerioPhoto,
-    bio: "Com mais de três décadas de dedicação ao mercado de seguros, Rogério iniciou sua trajetória em 1989 na Itaú Seguros antes de empreender e fundar a Freeman Corretora. É formado e pós-graduado em Administração de Empresas, e divide sua expertise como professor da Escola de Negócios e Seguros (ENS) e palestrante. Atua ativamente como liderança no Sincor-SP, reforçando seu compromisso com a ética e o desenvolvimento do setor.",
+    bio: "Rogério atua no mercado de seguros desde 1989. Está à frente da área de seguros patrimoniais da corretora.",
   },
   {
-    role: "Head de Operações e Inovação",
+    role: "Sócio-Diretor",
     name: "Igor Freeman",
     photo: igorPhoto,
-    bio: "Publicitário de formação, Igor ingressou na Freeman Corretora em 2020 para liderar o processo sucessório e a transformação digital do negócio. Sua entrada marcou um novo capítulo para a empresa, unindo a tradição de mercado da corretora com inovação, comunicação ágil e uma identidade visual moderna, pensada para o cliente contemporâneo.",
+    bio: "Igor, desde 2020, participa do processo de sucessão, contribuindo para a modernização e expansão da empresa. É responsável pela área de Planos de Saúde.",
   },
 ];
 
@@ -81,15 +81,15 @@ export default function SobrePage() {
           <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
             Quem somos
           </p>
-          <h1 className="mt-4 text-5xl md:text-6xl">Sobre a Freeman</h1>
-          <p className="mt-5 font-sans text-lg text-white/80">
-            Tradição, Ética e Foco em Resultados.
-          </p>
+          <h1 className="mt-4 text-5xl md:text-6xl">A Freeman</h1>
+          <p className="mt-5 font-sans text-lg text-white/80">Construímos relações de confiança!</p>
         </div>
         <img
           src={shieldWhite}
           alt=""
           aria-hidden="true"
+          width={260}
+          height={260}
           className="pointer-events-none absolute -right-10 bottom-0 h-[260px] w-[260px] opacity-[0.05]"
           loading="lazy"
         />
@@ -129,7 +129,14 @@ export default function SobrePage() {
             {DIRETORIA.map((person) => (
               <div key={person.role} className="flex flex-col items-center text-center">
                 <div className="h-56 w-56 overflow-hidden rounded-full bg-surface-soft sm:h-64 sm:w-64">
-                  <img src={person.photo} alt={person.name} className="h-full w-full" />
+                  <img
+                    src={person.photo}
+                    alt={person.name}
+                    width={768}
+                    height={768}
+                    loading="lazy"
+                    className="h-full w-full"
+                  />
                 </div>
                 <p className="mt-8 font-sans text-2xl font-bold text-graphite">{person.name}</p>
                 <p className="mt-1 font-sans text-xs font-bold uppercase tracking-widest text-accent-red">

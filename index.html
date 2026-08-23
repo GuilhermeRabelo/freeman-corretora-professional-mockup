@@ -10,12 +10,26 @@
     <meta name="author" content="Freeman Corretora" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="%BASE_URL%favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=Montserrat:wght@400;600;800;900&display=swap"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=Montserrat:wght@400;600;800;900&display=swap"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=Montserrat:wght@400;600;800;900&display=swap"
+      />
+    </noscript>
     <title>Freeman Seguros</title>
     <script type="text/javascript">
       // Restores the real path saved by public/404.html's GitHub Pages SPA redirect.

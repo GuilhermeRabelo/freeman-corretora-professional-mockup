@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Instagram, Linkedin } from "lucide-react";
 import logoFullWhite from "@/assets/logo-full-white.png";
 
 export function SiteFooter() {
@@ -51,28 +52,40 @@ export function SiteFooter() {
           <div>
             <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Contato</h4>
             <ul className="space-y-3 font-sans text-sm text-white/75">
-              <li>+55 (13) 0000-0000</li>
-              <li>contato@freemancorretora.com.br</li>
+              <li>(13) 99728-1866</li>
+              <li>contato@freemanseguros.com.br</li>
               <li>Seg–Sex · 9h às 18h</li>
             </ul>
+            <div className="mt-5 flex gap-4">
+              <a
+                href="https://www.instagram.com/freemanseguros"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram da Freeman Seguros"
+                className="text-white/75 hover:text-white"
+              >
+                <Instagram className="h-5 w-5" strokeWidth={1.5} />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/freemanseguros"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn da Freeman Seguros"
+                className="text-white/75 hover:text-white"
+              >
+                <Linkedin className="h-5 w-5" strokeWidth={1.5} />
+              </a>
+            </div>
           </div>
 
           <div>
             <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Endereço</h4>
             <p className="font-sans text-sm leading-relaxed text-white/75">
-              Av. Ana Costa, 000
+              Av. Senador Feijó, 686, Sala 1525
               <br />
-              Gonzaga · Santos/SP
-              <br />
-              CEP 11060-000
+              Vila Mathias, Santos – SP
             </p>
           </div>
-        </div>
-
-        <div className="mt-14 border-t border-white/10 pt-8">
-          <p className="font-sans text-xs uppercase tracking-widest text-white/50">
-            Parceiros: Porto Seguro · Allianz · Tokio Marine · Bradesco · SulAmérica · Mapfre
-          </p>
         </div>
 
         <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 font-sans text-xs text-white/50 md:flex-row md:justify-between">

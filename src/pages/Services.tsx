@@ -1,47 +1,60 @@
 import { Link } from "react-router-dom";
 import shieldWhite from "@/assets/logo-shield-white.png";
-import { ArrowUpRight, Search, ClipboardList, PenLine, LifeBuoy } from "lucide-react";
+import {
+  Car,
+  Stethoscope,
+  Home,
+  Building2,
+  Building,
+  HeartPulse,
+  Plane,
+  HandCoins,
+  Search,
+  ClipboardList,
+  PenLine,
+  LifeBuoy,
+} from "lucide-react";
 
 const SERVICES = [
   {
-    title: "Riscos de Engenharia",
-    desc: "Cobertura para obras civis, montagens industriais e instalações em construção, com análise técnica do projeto.",
-    tags: ["Obras civis", "Montagem", "Performance"],
+    icon: Car,
+    title: "Seguro Automóvel",
+    desc: "Proteção para o seu veículo, com coberturas e assistências escolhidas de acordo com o seu perfil.",
   },
   {
-    title: "D&O — Responsabilidade de Administradores",
-    desc: "Proteção patrimonial pessoal de executivos, conselheiros e administradores frente a decisões de gestão.",
-    tags: ["Executivos", "Conselho", "Patrimônio pessoal"],
+    icon: Stethoscope,
+    title: "Plano de Saúde",
+    desc: "Encontre o plano ideal para você, sua família ou sua empresa, comparando as melhores opções de operadoras, redes e benefícios.",
   },
   {
-    title: "Patrimonial Empresarial",
-    desc: "Proteção integral de imóveis, equipamentos e estoques contra incêndio, roubo, danos elétricos e mais.",
-    tags: ["Incêndio", "Equipamentos", "Lucros cessantes"],
+    icon: Home,
+    title: "Seguro Residencial",
+    desc: "Proteção para sua casa e seus bens, além de assistências para facilitar o seu dia a dia.",
   },
   {
-    title: "Frota & Auto Empresarial",
-    desc: "Apólices únicas para frotas leves e pesadas, com franquia inteligente e gestão centralizada de sinistros.",
-    tags: ["Frota leve", "Pesados", "Franquia inteligente"],
+    icon: Building2,
+    title: "Seguro Empresarial",
+    desc: "Soluções para proteger o patrimônio e a continuidade do seu negócio diante de imprevistos.",
   },
   {
-    title: "Vida em Grupo",
-    desc: "Benefícios para colaboradores com coberturas customizadas, capital segurado e adesão simplificada.",
-    tags: ["Capital flexível", "Adesão digital", "Assistências"],
+    icon: Building,
+    title: "Seguro Condomínio",
+    desc: "Proteção para condomínios residenciais e comerciais, com coberturas para a estrutura, áreas comuns e responsabilidades.",
   },
   {
-    title: "Responsabilidade Civil",
-    desc: "RC Geral, Profissional e Operações, protegendo sua empresa de danos causados a terceiros.",
-    tags: ["RC Geral", "Profissional", "Operações"],
+    icon: HeartPulse,
+    title: "Seguro de Vida",
+    desc: "Proteção financeira para você e sua família nos momentos em que mais precisarem.",
   },
   {
-    title: "Garantia",
-    desc: "Seguro Garantia para licitações, contratos públicos e privados, judicial e aduaneiro.",
-    tags: ["Licitações", "Judicial", "Aduaneiro"],
+    icon: Plane,
+    title: "Seguro Viagem",
+    desc: "Viaje com tranquilidade e conte com proteção e assistência para imprevistos no Brasil ou no exterior.",
   },
   {
-    title: "Transportes",
-    desc: "Cobertura nacional e internacional para cargas, RCTR-C e RCF-DC, com atendimento 24h.",
-    tags: ["Nacional", "Internacional", "RCTR-C"],
+    icon: HandCoins,
+    title: "Consórcio",
+    desc: "Planeje a conquista do seu imóvel, veículo ou outros projetos de forma organizada e estratégica.",
   },
 ];
 
@@ -64,9 +77,9 @@ const PROCESS = [
   { icon: LifeBuoy, title: "Sinistro", desc: "Acompanhamento dedicado da abertura à indenização." },
 ];
 
-const PAGE_TITLE = "Serviços — Seguros Corporativos | Freeman Corretora";
+const PAGE_TITLE = "Serviços — Seguros | Freeman Corretora";
 const PAGE_DESCRIPTION =
-  "8 linhas de seguros corporativos: engenharia, D&O, patrimonial, frota, vida em grupo, RC, garantia e transportes. Atendimento dedicado em Santos/SP.";
+  "8 linhas de seguros: automóvel, saúde, residencial, empresarial, condomínio, vida, viagem e consórcio. Atendimento dedicado em Santos/SP.";
 
 export default function ServicosPage() {
   return (
@@ -91,12 +104,14 @@ export default function ServicosPage() {
           src={shieldWhite}
           alt=""
           aria-hidden="true"
+          width={260}
+          height={260}
           className="pointer-events-none absolute -right-10 bottom-0 h-[260px] w-[260px] opacity-[0.05]"
           loading="lazy"
         />
       </section>
 
-      {/* SERVICES — EDITORIAL LIST */}
+      {/* SERVICES — GRID */}
       <section className="bg-background py-24">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-14 flex flex-col gap-6 border-b border-divider pb-10 md:flex-row md:items-end md:justify-between">
@@ -112,53 +127,28 @@ export default function ServicosPage() {
             </p>
           </div>
 
-          <ol>
-            {SERVICES.map(({ title, desc, tags }, i) => (
-              <li key={title} className="group border-b border-divider last:border-b-0">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {SERVICES.map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="flex flex-col rounded-[4px] border border-divider bg-background p-8 transition-all hover:-translate-y-1 hover:border-navy hover:shadow-[0_12px_32px_-16px_rgba(33,37,67,0.25)]"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-[4px] bg-navy">
+                  <Icon className="h-7 w-7 text-white" strokeWidth={1.5} />
+                </div>
+                <h3 className="mt-6 text-2xl leading-tight">{title}</h3>
+                <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-graphite">
+                  {desc}
+                </p>
                 <Link
-                  to="/contato"
-                  className="grid grid-cols-[auto_1fr_auto] items-start gap-x-6 gap-y-3 py-8 transition-colors hover:bg-surface-soft md:grid-cols-[3.5rem_1fr_14rem_auto] md:gap-x-10 md:py-10"
+                  to={`/contato?seguro=${encodeURIComponent(title)}`}
+                  className="mt-6 inline-flex items-center justify-center self-start rounded-[4px] border border-navy px-6 py-3 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy hover:text-white"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="self-start font-display text-3xl leading-none text-divider transition-colors group-hover:text-navy md:text-4xl"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <div className="min-w-0">
-                    <h3 className="text-2xl leading-tight transition-transform duration-300 group-hover:translate-x-1 md:text-3xl">
-                      {title}
-                    </h3>
-                    <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-graphite">
-                      {desc}
-                    </p>
-                  </div>
-
-                  <ul className="col-span-2 col-start-2 flex flex-wrap gap-1.5 md:col-span-1 md:col-start-3 md:flex-col md:items-start md:gap-1.5 md:self-start md:pt-2">
-                    {tags.map((t) => (
-                      <li
-                        key={t}
-                        className="rounded-[4px] border border-divider px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-navy-medium md:rounded-none md:border-0 md:px-0 md:py-0 md:before:mr-2 md:before:inline-block md:before:h-px md:before:w-3 md:before:translate-y-[-3px] md:before:bg-navy-medium md:before:align-middle"
-                      >
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <span
-                    aria-hidden="true"
-                    className="col-start-3 row-start-1 self-start text-navy md:col-start-4"
-                  >
-                    <ArrowUpRight
-                      className="h-6 w-6 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                      strokeWidth={1.5}
-                    />
-                  </span>
+                  Solicitar Cotação
                 </Link>
-              </li>
+              </div>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 

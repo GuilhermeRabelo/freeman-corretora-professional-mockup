@@ -19,19 +19,19 @@ No test suite is configured.
 
 **Freeman Corretora** is a static B2B marketing website for a São Paulo insurance brokerage. It has no backend, no API, and no dynamic data — all content is hardcoded in the page components.
 
-**Stack**: React 19 + TypeScript, Vite 7, React Router v6, Tailwind CSS 4, Shadcn/ui (new-york style).
+**Stack**: React 19 + TypeScript, Vite 7, React Router v7, Tailwind CSS 4.
 
-**Routing** is configured in `src/App.tsx` using React Router v6 `<BrowserRouter>`. Pages live in `src/pages/`:
+**Routing** is configured in `src/App.tsx` using React Router v7 `<BrowserRouter>`. Routes stay in Portuguese (`/servicos`, `/sobre`, `/contato`) but the page files themselves are named in English, in `src/pages/`:
 
 - `Index.tsx` — Home (hero, stats, service preview, partners, CTA)
-- `Servicos.tsx` — Services (8 service cards, 4-step process)
-- `Sobre.tsx` — About (company story, values, timeline)
-- `Contato.tsx` — Contact (info + form via `mailto:` link, map embed)
+- `Services.tsx` — Services (8 service cards, 4-step process)
+- `About.tsx` — About (company story, values, timeline)
+- `Contact.tsx` — Contact (info + form via `mailto:` link, map embed)
 - `NotFound.tsx` — 404 catch-all
 
 **Layout**: Every page renders inside `SiteLayout` (header + main + footer + WhatsApp FAB). The layout components are in `src/components/layout/`.
 
-**Shadcn/ui** components live in `src/components/ui/` — use them freely for new UI elements.
+**No shadcn/ui** — it was removed as unused dead code; UI elements are hand-built with Tailwind, icons come from `lucide-react`.
 
 **Path alias**: `@/*` maps to `src/*`.
 
@@ -57,8 +57,10 @@ Custom Tailwind theme tokens (defined in `src/styles.css` `@theme` block):
 
 All contact info is hardcoded — no env vars. When updating to real values, search for:
 
-- Phone: `+55 (13) 0000-0000`
-- WhatsApp URL: `https://wa.me/5513000000000`
-- Email: `contato@freemancorretora.com.br`
-- Address: `Av. Ana Costa, 000 — Gonzaga, Santos/SP`
-- CNPJ: `00.000.000/0001-00`
+- Phone: `+55 (13) 0000-0000` (`Contact.tsx`, `SiteFooter.tsx`)
+- WhatsApp URL: `https://wa.me/5513000000000` (`Contact.tsx`, `WhatsappFab.tsx`)
+- Email: `contato@freemancorretora.com.br` (`Contact.tsx` ×2, `SiteFooter.tsx`)
+- **Address — inconsistent, two different placeholders in use, both need updating:**
+  - `Contact.tsx`: `Av. Senador Feijó, 686 — Sala 1525, Santos/SP`
+  - `SiteFooter.tsx`: `Av. Ana Costa, 000 — Gonzaga, Santos/SP — CEP 11060-000`
+- CNPJ/SUSEP: only in `SiteFooter.tsx` — `SUSEP nº 00000000 · CNPJ 36.756.226/0001-64`. Not referenced anywhere else.
