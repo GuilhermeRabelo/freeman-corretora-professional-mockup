@@ -62,7 +62,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram da Freeman Seguros"
-                className="text-white/75 hover:text-white"
+                className="-m-2 p-2 text-white/75 hover:text-white"
               >
                 <Instagram className="h-5 w-5" strokeWidth={1.5} />
               </a>
@@ -71,7 +71,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn da Freeman Seguros"
-                className="text-white/75 hover:text-white"
+                className="-m-2 p-2 text-white/75 hover:text-white"
               >
                 <Linkedin className="h-5 w-5" strokeWidth={1.5} />
               </a>

@@ -16,11 +16,17 @@ export function AnimatedCounter({ end, suffix = "", duration = 3500, className }
     const el = ref.current;
     if (!el) return;
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting && !started.current) {
             started.current = true;
+            if (reduceMotion) {
+              setValue(end);
+              continue;
+            }
             const startTime = performance.now();
             const tick = (now: number) => {
               const elapsed = now - startTime;

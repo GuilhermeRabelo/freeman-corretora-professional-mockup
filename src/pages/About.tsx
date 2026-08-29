@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Eye, Award, Users } from "lucide-react";
+import { Reveal } from "@/components/Reveal";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import rogerioPhoto from "@/assets/rogerio.webp";
 import igorPhoto from "@/assets/igor.webp";
@@ -51,6 +52,15 @@ const PAGE_DESCRIPTION =
 export default function SobrePage() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [timelineVisible, setTimelineVisible] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduceMotion(query.matches);
+    const onChange = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     const el = timelineRef.current;
@@ -98,54 +108,58 @@ export default function SobrePage() {
       {/* INSTITUTIONAL SPLIT */}
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 lg:mb-20">
-            <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-accent-red">
-              35 anos de história
-            </p>
-            <h2 className="mt-4 text-4xl md:text-5xl">
-              Entendemos o risco para proteger o seu sucesso.
-            </h2>
-            <div className="mt-8 space-y-5 font-sans text-base leading-relaxed text-graphite">
-              <p>
-                Fundada em 1989 em Santos, a Freeman Corretora nasceu com um propósito claro:
-                oferecer ao mercado corporativo uma consultoria técnica de seguros realmente
-                independente, livre de pressões comerciais e focada na proteção real do patrimônio
-                empresarial.
+          <Reveal>
+            <div className="mb-16 lg:mb-20">
+              <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-accent-red">
+                35 anos de história
               </p>
-              <p>
-                Atendemos hoje mais de 500 empresas — de indústrias e operações logísticas a
-                escritórios de serviços profissionais — desenhando apólices sob medida que
-                acompanham a complexidade de cada operação.
-              </p>
-              <p>
-                Nossa abordagem é consultiva: começa com diagnóstico de riscos, segue com
-                concorrência entre as principais seguradoras e termina com gestão ativa de sinistros
-                para que sua empresa nunca pare.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-12">
-            {DIRETORIA.map((person) => (
-              <div key={person.role} className="flex flex-col items-center text-center">
-                <div className="h-56 w-56 overflow-hidden rounded-full bg-surface-soft sm:h-64 sm:w-64">
-                  <img
-                    src={person.photo}
-                    alt={person.name}
-                    width={768}
-                    height={768}
-                    loading="lazy"
-                    className="h-full w-full"
-                  />
-                </div>
-                <p className="mt-8 font-sans text-2xl font-bold text-graphite">{person.name}</p>
-                <p className="mt-1 font-sans text-xs font-bold uppercase tracking-widest text-accent-red">
-                  {person.role}
+              <h2 className="mt-4 text-4xl md:text-5xl">
+                Entendemos o risco para proteger o seu sucesso.
+              </h2>
+              <div className="mt-8 space-y-5 font-sans text-base leading-relaxed text-graphite">
+                <p>
+                  Fundada em 1989 em Santos, a Freeman Corretora nasceu com um propósito claro:
+                  oferecer ao mercado corporativo uma consultoria técnica de seguros realmente
+                  independente, livre de pressões comerciais e focada na proteção real do patrimônio
+                  empresarial.
                 </p>
-                <p className="mx-auto mt-5 max-w-md font-sans text-sm leading-relaxed text-graphite/80">
-                  {person.bio}
+                <p>
+                  Atendemos hoje mais de 500 empresas — de indústrias e operações logísticas a
+                  escritórios de serviços profissionais — desenhando apólices sob medida que
+                  acompanham a complexidade de cada operação.
+                </p>
+                <p>
+                  Nossa abordagem é consultiva: começa com diagnóstico de riscos, segue com
+                  concorrência entre as principais seguradoras e termina com gestão ativa de
+                  sinistros para que sua empresa nunca pare.
                 </p>
               </div>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-12">
+            {DIRETORIA.map((person, i) => (
+              <Reveal key={person.role} delay={i * 0.1}>
+                <div className="flex flex-col items-center text-center">
+                  <div className="h-56 w-56 overflow-hidden rounded-full bg-surface-soft sm:h-64 sm:w-64">
+                    <img
+                      src={person.photo}
+                      alt={person.name}
+                      width={768}
+                      height={768}
+                      loading="lazy"
+                      className="h-full w-full"
+                    />
+                  </div>
+                  <p className="mt-8 font-sans text-2xl font-bold text-graphite">{person.name}</p>
+                  <p className="mt-1 font-sans text-xs font-bold uppercase tracking-widest text-accent-red">
+                    {person.role}
+                  </p>
+                  <p className="mx-auto mt-5 max-w-md font-sans text-sm leading-relaxed text-graphite/80">
+                    {person.bio}
+                  </p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -154,19 +168,23 @@ export default function SobrePage() {
       {/* VALUES */}
       <section className="bg-navy py-24 text-white">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 text-center">
-            <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
-              Nossos valores
-            </p>
-            <h2 className="mt-4 text-4xl md:text-5xl">O que nos move</h2>
-          </div>
+          <Reveal>
+            <div className="mb-16 text-center">
+              <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
+                Nossos valores
+              </p>
+              <h2 className="mt-4 text-4xl md:text-5xl">O que nos move</h2>
+            </div>
+          </Reveal>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
-            {VALUES.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="border border-white/15 p-8">
-                <Icon className="h-10 w-10 text-white" strokeWidth={1.25} />
-                <h3 className="mt-6 text-2xl">{title}</h3>
-                <p className="mt-4 font-sans text-sm leading-relaxed text-white/80">{desc}</p>
-              </div>
+            {VALUES.map(({ icon: Icon, title, desc }, i) => (
+              <Reveal key={title} delay={i * 0.1}>
+                <div className="h-full border border-white/15 p-8">
+                  <Icon className="h-10 w-10 text-white" strokeWidth={1.25} />
+                  <h3 className="mt-6 text-2xl">{title}</h3>
+                  <p className="mt-4 font-sans text-sm leading-relaxed text-white/80">{desc}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -185,18 +203,20 @@ export default function SobrePage() {
             {/* horizontal animated line — desktop */}
             <div className="absolute left-0 right-0 top-3 hidden h-px overflow-hidden md:block">
               <div
-                className="h-full bg-divider transition-transform duration-[1200ms] ease-out"
+                className="h-full bg-divider transition-transform ease-out"
                 style={{
                   transformOrigin: "left",
-                  transform: timelineVisible ? "scaleX(1)" : "scaleX(0)",
+                  transform: timelineVisible || reduceMotion ? "scaleX(1)" : "scaleX(0)",
+                  transitionDuration: reduceMotion ? "0ms" : "1200ms",
                 }}
               />
             </div>
 
             {TIMELINE.map((m, i) => {
               const isLast = i === TIMELINE.length - 1;
-              const dotDelay = 300 + i * 280;
-              const contentDelay = 450 + i * 280;
+              const dotDelay = reduceMotion ? 0 : 300 + i * 280;
+              const contentDelay = reduceMotion ? 0 : 450 + i * 280;
+              const visible = timelineVisible || reduceMotion;
               return (
                 <div
                   key={m.year}
@@ -207,35 +227,43 @@ export default function SobrePage() {
                     <div className="absolute left-3 top-6 bottom-0 w-px -translate-x-1/2 bg-divider md:hidden" />
                   )}
                   <div
-                    className="h-6 w-6 shrink-0 rounded-full border-4 border-background transition-all duration-500 md:mx-auto"
+                    className="h-6 w-6 shrink-0 rounded-full border-4 border-background transition-all md:mx-auto"
                     style={{
                       backgroundColor: isLast
-                        ? timelineVisible
-                          ? "#c83d3d"
-                          : "#212543"
-                        : "#212543",
-                      opacity: timelineVisible ? 1 : 0,
-                      transform: timelineVisible ? "scale(1)" : "scale(0)",
+                        ? visible
+                          ? "var(--color-accent-red)"
+                          : "var(--color-navy)"
+                        : "var(--color-navy)",
+                      opacity: visible ? 1 : 0,
+                      transform: visible ? "scale(1)" : "scale(0)",
+                      transitionDuration: reduceMotion ? "0ms" : "500ms",
                       transitionDelay: `${dotDelay}ms`,
                     }}
                   />
                   <div className="md:mt-5">
                     <div
-                      className="font-sans text-3xl font-black transition-all duration-500"
+                      className="flex items-baseline gap-2 font-sans text-3xl font-black transition-all md:justify-center"
                       style={{
-                        color: isLast ? "#c83d3d" : "#212543",
-                        opacity: timelineVisible ? 1 : 0,
-                        transform: timelineVisible ? "translateY(0)" : "translateY(12px)",
+                        color: isLast ? "var(--color-accent-red)" : "var(--color-navy)",
+                        opacity: visible ? 1 : 0,
+                        transform: visible ? "translateY(0)" : "translateY(12px)",
+                        transitionDuration: reduceMotion ? "0ms" : "500ms",
                         transitionDelay: `${contentDelay}ms`,
                       }}
                     >
                       {m.year}
+                      {isLast && (
+                        <span className="font-sans text-xs font-bold uppercase tracking-widest text-accent-red">
+                          Hoje
+                        </span>
+                      )}
                     </div>
                     <div
-                      className="mt-2 font-sans text-sm text-graphite transition-all duration-500"
+                      className="mt-2 font-sans text-sm text-graphite transition-all"
                       style={{
-                        opacity: timelineVisible ? 1 : 0,
-                        transform: timelineVisible ? "translateY(0)" : "translateY(8px)",
+                        opacity: visible ? 1 : 0,
+                        transform: visible ? "translateY(0)" : "translateY(8px)",
+                        transitionDuration: reduceMotion ? "0ms" : "500ms",
                         transitionDelay: `${contentDelay + 60}ms`,
                       }}
                     >

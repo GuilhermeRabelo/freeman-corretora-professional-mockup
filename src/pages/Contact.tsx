@@ -1,9 +1,7 @@
 import { useCallback, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
-
-const WHATSAPP_URL =
-  "https://wa.me/5513997281866?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o.";
+import { WHATSAPP_URL } from "@/lib/constants";
 
 const SEGUROS = [
   "Seguro Automóvel",
@@ -51,6 +49,7 @@ export default function ContatoPage() {
   });
 
   const [touched, setTouched] = useState<Set<FormKey>>(new Set());
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const markTouched = useCallback((k: FormKey) => setTouched((prev) => new Set([...prev, k])), []);
 
@@ -83,23 +82,33 @@ export default function ContatoPage() {
   const emailError = touched.has("email") ? getError(form, "email") : "";
   const seguroError = touched.has("seguro") ? getError(form, "seguro") : "";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(new Set(VALIDATED_FIELDS));
     if (VALIDATED_FIELDS.some((k) => getError(form, k))) return;
-    const subject = `Solicitação de cotação — ${form.seguro || "Seguro Corporativo"}`;
-    const body = [
-      `Nome: ${form.nome}`,
-      `Empresa (CNPJ): ${form.empresa}`,
-      `Cargo: ${form.cargo}`,
-      `Telefone: ${form.telefone}`,
-      `E-mail: ${form.email}`,
-      `Seguro de interesse: ${form.seguro}`,
-      "",
-      "Mensagem:",
-      form.mensagem,
-    ].join("\n");
-    window.location.href = `mailto:contato@freemanseguros.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    setStatus("submitting");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Falha no envio");
+      setStatus("success");
+      setForm({
+        nome: "",
+        empresa: "",
+        cargo: "",
+        telefone: "",
+        email: "",
+        seguro: "",
+        mensagem: "",
+      });
+      setTouched(new Set());
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -137,7 +146,7 @@ export default function ContatoPage() {
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-divider">
-                    <Icon className="h-5 w-5 text-navy" strokeWidth={1.5} />
+                    <Icon className="h-5 w-5 text-navy" strokeWidth={1.5} aria-hidden="true" />
                   </div>
                   <div>
                     <div className="font-sans text-xs font-bold uppercase tracking-widest text-navy-medium">
@@ -182,9 +191,10 @@ export default function ContatoPage() {
             <p className="mt-2 font-sans text-sm text-graphite">
               Preencha os campos abaixo. Retornaremos com uma proposta personalizada.
             </p>
+            <p className="mt-1 font-sans text-xs text-graphite/70">* Campos obrigatórios</p>
 
             <div className="mt-8 space-y-5">
-              <Field label="Nome Completo *" error={nomeError}>
+              <Field name="nome" label="Nome Completo *" error={nomeError}>
                 <input
                   type="text"
                   required
@@ -192,11 +202,13 @@ export default function ContatoPage() {
                   value={form.nome}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  aria-invalid={!!nomeError}
+                  aria-describedby={nomeError ? "nome-error" : undefined}
                   className={inputClass(!!nomeError)}
                 />
               </Field>
 
-              <Field label="Empresa (CNPJ) *" error={empresaError}>
+              <Field name="empresa" label="Empresa (CNPJ) *" error={empresaError}>
                 <input
                   type="text"
                   required
@@ -204,11 +216,13 @@ export default function ContatoPage() {
                   value={form.empresa}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  aria-invalid={!!empresaError}
+                  aria-describedby={empresaError ? "empresa-error" : undefined}
                   className={inputClass(!!empresaError)}
                 />
               </Field>
 
-              <Field label="Cargo">
+              <Field name="cargo" label="Cargo">
                 <input
                   type="text"
                   name="cargo"
@@ -218,7 +232,7 @@ export default function ContatoPage() {
                 />
               </Field>
 
-              <Field label="Telefone Comercial *" error={telefoneError}>
+              <Field name="telefone" label="Telefone Comercial *" error={telefoneError}>
                 <input
                   type="tel"
                   required
@@ -226,11 +240,13 @@ export default function ContatoPage() {
                   value={form.telefone}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  aria-invalid={!!telefoneError}
+                  aria-describedby={telefoneError ? "telefone-error" : undefined}
                   className={inputClass(!!telefoneError)}
                 />
               </Field>
 
-              <Field label="E-mail Corporativo *" error={emailError}>
+              <Field name="email" label="E-mail Corporativo *" error={emailError}>
                 <input
                   type="email"
                   required
@@ -238,11 +254,13 @@ export default function ContatoPage() {
                   value={form.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  aria-invalid={!!emailError}
+                  aria-describedby={emailError ? "email-error" : undefined}
                   className={inputClass(!!emailError)}
                 />
               </Field>
 
-              <Field label="Seguro de Interesse *" error={seguroError}>
+              <Field name="seguro" label="Seguro de Interesse *" error={seguroError}>
                 <select
                   required
                   name="seguro"
@@ -252,6 +270,8 @@ export default function ContatoPage() {
                     markTouched("seguro");
                   }}
                   onBlur={handleBlur}
+                  aria-invalid={!!seguroError}
+                  aria-describedby={seguroError ? "seguro-error" : undefined}
                   className={inputClass(!!seguroError)}
                 >
                   <option value="">Selecione…</option>
@@ -263,7 +283,7 @@ export default function ContatoPage() {
                 </select>
               </Field>
 
-              <Field label="Mensagem">
+              <Field name="mensagem" label="Mensagem">
                 <textarea
                   rows={4}
                   name="mensagem"
@@ -275,10 +295,23 @@ export default function ContatoPage() {
 
               <button
                 type="submit"
-                className="block w-full rounded-[4px] bg-navy px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-navy-medium"
+                disabled={status === "submitting"}
+                className="block w-full rounded-[4px] bg-navy px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-navy-medium disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Enviar Solicitação
+                {status === "submitting" ? "Enviando…" : "Enviar Solicitação"}
               </button>
+
+              {status === "success" && (
+                <p className="text-center font-sans text-sm font-medium text-green-700">
+                  Mensagem enviada! Retornaremos em breve.
+                </p>
+              )}
+
+              {status === "error" && (
+                <p className="text-center font-sans text-sm font-medium text-accent-red">
+                  Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp/telefone.
+                </p>
+              )}
 
               <p className="text-center font-sans text-xs text-graphite/80">
                 Ao enviar, você concorda com nossa política de privacidade.
@@ -292,10 +325,12 @@ export default function ContatoPage() {
 }
 
 function Field({
+  name,
   label,
   error,
   children,
 }: {
+  name: string;
   label: string;
   error?: string;
   children: React.ReactNode;
@@ -307,7 +342,13 @@ function Field({
       </span>
       {children}
       {error && (
-        <span className="mt-1.5 block font-sans text-xs font-medium text-accent-red">{error}</span>
+        <span
+          id={`${name}-error`}
+          role="alert"
+          className="mt-1.5 block font-sans text-xs font-medium text-accent-red"
+        >
+          {error}
+        </span>
       )}
     </label>
   );

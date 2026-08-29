@@ -9,11 +9,9 @@ import {
   HeartPulse,
   Plane,
   HandCoins,
-  Search,
-  ClipboardList,
-  PenLine,
-  LifeBuoy,
 } from "lucide-react";
+import { PROCESS } from "@/data/process";
+import { Reveal } from "@/components/Reveal";
 
 const SERVICES = [
   {
@@ -58,25 +56,6 @@ const SERVICES = [
   },
 ];
 
-const PROCESS = [
-  {
-    icon: Search,
-    title: "Diagnóstico",
-    desc: "Mapeamos riscos e necessidades específicas da sua operação.",
-  },
-  {
-    icon: ClipboardList,
-    title: "Cotação",
-    desc: "Concorrência entre as principais seguradoras do mercado.",
-  },
-  {
-    icon: PenLine,
-    title: "Contratação",
-    desc: "Apólice estruturada com cláusulas adequadas à sua realidade.",
-  },
-  { icon: LifeBuoy, title: "Sinistro", desc: "Acompanhamento dedicado da abertura à indenização." },
-];
-
 const PAGE_TITLE = "Serviços — Seguros | Freeman Corretora";
 const PAGE_DESCRIPTION =
   "8 linhas de seguros: automóvel, saúde, residencial, empresarial, condomínio, vida, viagem e consórcio. Atendimento dedicado em Santos/SP.";
@@ -114,39 +93,40 @@ export default function ServicosPage() {
       {/* SERVICES — GRID */}
       <section className="bg-background py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-14 flex flex-col gap-6 border-b border-divider pb-10 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
-                Linhas de negócio
+          <Reveal>
+            <div className="mb-14 flex flex-col gap-6 border-b border-divider pb-10 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
+                  Linhas de negócio
+                </p>
+                <h2 className="mt-3 text-4xl md:text-5xl">Oito frentes. Uma corretora.</h2>
+              </div>
+              <p className="max-w-md font-sans text-sm leading-relaxed text-graphite">
+                Cada apólice é estruturada com cláusulas adequadas à realidade da operação — sem
+                pacote pronto, sem letra miúda.
               </p>
-              <h2 className="mt-3 text-4xl md:text-5xl">Oito frentes. Uma corretora.</h2>
             </div>
-            <p className="max-w-md font-sans text-sm leading-relaxed text-graphite">
-              Cada apólice é estruturada com cláusulas adequadas à realidade da operação — sem
-              pacote pronto, sem letra miúda.
-            </p>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {SERVICES.map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="flex flex-col rounded-[4px] border border-divider bg-background p-8 transition-all hover:-translate-y-1 hover:border-navy hover:shadow-[0_12px_32px_-16px_rgba(33,37,67,0.25)]"
-              >
-                <div className="flex h-14 w-14 items-center justify-center rounded-[4px] bg-navy">
-                  <Icon className="h-7 w-7 text-white" strokeWidth={1.5} />
+            {SERVICES.map(({ icon: Icon, title, desc }, i) => (
+              <Reveal key={title} delay={(i % 2) * 0.1}>
+                <div className="flex h-full flex-col rounded-[4px] border border-divider bg-background p-8 transition-all hover:-translate-y-1 hover:border-navy hover:shadow-card-hover">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-[4px] bg-navy">
+                    <Icon className="h-7 w-7 text-white" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="mt-6 text-2xl leading-tight">{title}</h3>
+                  <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-graphite">
+                    {desc}
+                  </p>
+                  <Link
+                    to={`/contato?seguro=${encodeURIComponent(title)}`}
+                    className="mt-6 inline-flex items-center justify-center self-start rounded-[4px] border border-navy px-6 py-3 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy hover:text-white"
+                  >
+                    Solicitar Cotação
+                  </Link>
                 </div>
-                <h3 className="mt-6 text-2xl leading-tight">{title}</h3>
-                <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-graphite">
-                  {desc}
-                </p>
-                <Link
-                  to={`/contato?seguro=${encodeURIComponent(title)}`}
-                  className="mt-6 inline-flex items-center justify-center self-start rounded-[4px] border border-navy px-6 py-3 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy hover:text-white"
-                >
-                  Solicitar Cotação
-                </Link>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -155,24 +135,28 @@ export default function ServicosPage() {
       {/* PROCESS */}
       <section className="bg-surface-soft py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 text-center">
-            <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
-              Metodologia
-            </p>
-            <h2 className="mt-4 text-4xl md:text-5xl">Como trabalhamos</h2>
-          </div>
+          <Reveal>
+            <div className="mb-16 text-center">
+              <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
+                Metodologia
+              </p>
+              <h2 className="mt-4 text-4xl md:text-5xl">Como trabalhamos</h2>
+            </div>
+          </Reveal>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             {PROCESS.map(({ icon: Icon, title, desc }, i) => (
-              <div key={title} className="relative text-center">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center border border-divider bg-background">
-                  <Icon className="h-7 w-7 text-navy" strokeWidth={1.5} />
+              <Reveal key={title} delay={i * 0.1}>
+                <div className="relative text-center">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center border border-divider bg-background">
+                    <Icon className="h-7 w-7 text-navy" strokeWidth={1.5} />
+                  </div>
+                  <div className="mt-4 font-sans text-xs font-bold uppercase tracking-widest text-navy-medium">
+                    Etapa {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="mt-2 text-xl">{title}</h3>
+                  <p className="mt-2 font-sans text-sm text-graphite">{desc}</p>
                 </div>
-                <div className="mt-4 font-sans text-xs font-bold uppercase tracking-widest text-navy-medium">
-                  Etapa {String(i + 1).padStart(2, "0")}
-                </div>
-                <h3 className="mt-2 text-xl">{title}</h3>
-                <p className="mt-2 font-sans text-sm text-graphite">{desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -180,20 +164,22 @@ export default function ServicosPage() {
 
       {/* CTA */}
       <section className="bg-navy-medium py-20">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
-          <div>
-            <h2 className="text-3xl md:text-4xl">Não encontrou o que procura?</h2>
-            <p className="mt-3 font-sans text-base text-white/80">
-              Nossa equipe desenha apólices sob medida para operações complexas.
-            </p>
-          </div>
-          <Link
-            to="/contato"
-            className="inline-flex items-center justify-center rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
-          >
-            Falar com Especialista
-          </Link>
-        </div>
+        <Reveal className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
+          <>
+            <div>
+              <h2 className="text-3xl md:text-4xl">Não encontrou o que procura?</h2>
+              <p className="mt-3 font-sans text-base text-white/80">
+                Nossa equipe desenha apólices sob medida para operações complexas.
+              </p>
+            </div>
+            <Link
+              to="/contato"
+              className="inline-flex items-center justify-center rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
+            >
+              Falar com Especialista
+            </Link>
+          </>
+        </Reveal>
       </section>
     </>
   );

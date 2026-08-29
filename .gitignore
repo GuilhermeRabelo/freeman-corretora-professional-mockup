@@ -11,6 +11,8 @@ node_modules
 dist
 *.local
 
+.claude
+
 # Performance reports (geração local — não versionar)
 presentation/
 

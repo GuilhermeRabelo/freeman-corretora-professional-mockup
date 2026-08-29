@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-[60vh] items-center justify-center bg-background px-4">
       <title>Página não encontrada — Freeman Corretora</title>
       <meta name="description" content="A página que você procura não existe ou foi movida." />
       <meta name="robots" content="noindex" />

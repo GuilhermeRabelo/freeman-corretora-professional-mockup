@@ -49,8 +49,10 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="md:hidden"
-          aria-label="Abrir menu"
+          className="-m-2 p-2 md:hidden"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-6 w-6 text-navy" /> : <Menu className="h-6 w-6 text-navy" />}
@@ -58,7 +60,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav className="border-t border-divider bg-background md:hidden">
+        <nav id="mobile-nav" className="border-t border-divider bg-background md:hidden">
           <div className="flex flex-col px-6 py-4">
             {NAV.map((item) => (
               <NavLink
