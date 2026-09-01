@@ -17,14 +17,14 @@ export function SiteFooter() {
               loading="lazy"
             />
             <p className="mt-6 max-w-xs font-sans text-sm leading-relaxed text-white/75">
-              Há 35 anos protegendo a sua vida e o seu patrimônio.
+              Protegendo a sua vida e o seu patrimônio desde 1989.
             </p>
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
+            <h2 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
               Navegação
-            </h4>
+            </h2>
             <ul className="space-y-3 font-sans text-sm text-white/75">
               <li>
                 <Link to="/" className="hover:text-white">
@@ -55,7 +55,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Contato</h4>
+            <h2 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Contato</h2>
             <ul className="space-y-3 font-sans text-sm text-white/75">
               <li>(13) 99728-1866</li>
               <li>contato@freemanseguros.com.br</li>
@@ -84,7 +84,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Endereço</h4>
+            <h2 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Endereço</h2>
             <p className="font-sans text-sm leading-relaxed text-white/75">
               Av. Senador Feijó, 686, Sala 1525
               <br />
@@ -93,11 +93,16 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 font-sans text-xs text-white/50 md:flex-row md:justify-between">
+        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 font-sans text-xs text-white/50 md:flex-row md:items-center md:justify-between">
           <span>
             © {new Date().getFullYear()} Freeman Corretora de Seguros. Todos os direitos reservados.
           </span>
-          <span>SUSEP nº 00000000 · CNPJ 36.756.226/0001-64</span>
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
+            <Link to="/privacidade" className="hover:text-white">
+              Política de Privacidade
+            </Link>
+            <span>SUSEP nº 00000000 · CNPJ 36.756.226/0001-64</span>
+          </div>
         </div>
       </div>
     </footer>

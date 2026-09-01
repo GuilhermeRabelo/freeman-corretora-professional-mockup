@@ -12,6 +12,14 @@ import {
 } from "lucide-react";
 import { PROCESS } from "@/data/process";
 import { Reveal } from "@/components/Reveal";
+import { Seo } from "@/components/Seo";
+import {
+  breadcrumbSchema,
+  organizationSchema,
+  pageSchema,
+  schemaGraph,
+  servicesSchema,
+} from "@/lib/structured-data";
 
 const SERVICES = [
   {
@@ -63,11 +71,20 @@ const PAGE_DESCRIPTION =
 export default function ServicosPage() {
   return (
     <>
-      <title>{PAGE_TITLE}</title>
-      <meta name="description" content={PAGE_DESCRIPTION} />
-      <meta property="og:title" content={PAGE_TITLE} />
-      <meta property="og:description" content={PAGE_DESCRIPTION} />
-      <meta property="og:type" content="website" />
+      <Seo
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/servicos"
+        jsonLd={schemaGraph(
+          organizationSchema,
+          pageSchema("WebPage", "/servicos"),
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Serviços", path: "/servicos" },
+          ]),
+          servicesSchema,
+        )}
+      />
       {/* INTERNAL HERO */}
       <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
         <div className="mx-auto max-w-4xl px-6">

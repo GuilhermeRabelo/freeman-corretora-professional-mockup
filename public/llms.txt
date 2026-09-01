@@ -1,0 +1,18 @@
+# Freeman Corretora de Seguros
+
+> Corretora de seguros fundada em 1989, com sede em Santos/SP e atendimento a pessoas e empresas em todo o Brasil.
+
+## Páginas principais
+
+- [Início](https://freemanseguros.com.br/): visão geral da corretora e das principais soluções.
+- [Serviços](https://freemanseguros.com.br/servicos): seguro automóvel, plano de saúde, seguro residencial, empresarial, condomínio, vida, viagem e consórcio.
+- [Sinistros](https://freemanseguros.com.br/sinistros): orientações e canais de atendimento para sinistros.
+- [Sobre](https://freemanseguros.com.br/sobre): história, valores e diretoria.
+- [Contato](https://freemanseguros.com.br/contato): formulário de cotação e dados de atendimento.
+- [Política de Privacidade](https://freemanseguros.com.br/privacidade): como coletamos, usamos e protegemos dados pessoais (LGPD).
+
+## Contato
+
+- E-mail: contato@freemanseguros.com.br
+- Telefone e WhatsApp: +55 13 99728-1866
+- Endereço: Av. Senador Feijó, 686, Sala 1525, Vila Mathias, Santos/SP, Brasil

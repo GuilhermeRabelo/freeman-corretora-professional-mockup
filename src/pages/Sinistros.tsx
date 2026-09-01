@@ -22,6 +22,13 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import { WHATSAPP_URL } from "@/lib/constants";
 import { Reveal } from "@/components/Reveal";
+import { Seo } from "@/components/Seo";
+import {
+  breadcrumbSchema,
+  organizationSchema,
+  pageSchema,
+  schemaGraph,
+} from "@/lib/structured-data";
 
 type ClaimType = {
   id: string;
@@ -199,11 +206,19 @@ export default function SinistrosPage() {
 
   return (
     <>
-      <title>{PAGE_TITLE}</title>
-      <meta name="description" content={PAGE_DESCRIPTION} />
-      <meta property="og:title" content={PAGE_TITLE} />
-      <meta property="og:description" content={PAGE_DESCRIPTION} />
-      <meta property="og:type" content="website" />
+      <Seo
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/sinistros"
+        jsonLd={schemaGraph(
+          organizationSchema,
+          pageSchema("WebPage", "/sinistros"),
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Sinistros", path: "/sinistros" },
+          ]),
+        )}
+      />
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">

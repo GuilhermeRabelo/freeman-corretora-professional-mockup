@@ -12,6 +12,7 @@ dist
 *.local
 
 .claude
+.tmp
 
 # Performance reports (geração local — não versionar)
 presentation/

@@ -1,7 +1,14 @@
 import { useCallback, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/constants";
+import { Seo } from "@/components/Seo";
+import {
+  breadcrumbSchema,
+  organizationSchema,
+  pageSchema,
+  schemaGraph,
+} from "@/lib/structured-data";
 
 const SEGUROS = [
   "Seguro Automóvel",
@@ -113,11 +120,19 @@ export default function ContatoPage() {
 
   return (
     <>
-      <title>{PAGE_TITLE}</title>
-      <meta name="description" content={PAGE_DESCRIPTION} />
-      <meta property="og:title" content={PAGE_TITLE} />
-      <meta property="og:description" content={PAGE_DESCRIPTION} />
-      <meta property="og:type" content="website" />
+      <Seo
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/contato"
+        jsonLd={schemaGraph(
+          organizationSchema,
+          pageSchema("ContactPage", "/contato"),
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Contato", path: "/contato" },
+          ]),
+        )}
+      />
       <section className="bg-background py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2">
           {/* INFO */}
@@ -314,7 +329,11 @@ export default function ContatoPage() {
               )}
 
               <p className="text-center font-sans text-xs text-graphite/80">
-                Ao enviar, você concorda com nossa política de privacidade.
+                Ao enviar, você concorda com nossa{" "}
+                <Link to="/privacidade" className="underline underline-offset-2 hover:text-navy">
+                  política de privacidade
+                </Link>
+                .
               </p>
             </div>
           </form>

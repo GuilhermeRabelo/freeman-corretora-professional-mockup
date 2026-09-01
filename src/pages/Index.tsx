@@ -16,6 +16,8 @@ import {
 import { TrustStats } from "@/components/TrustStats";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { Reveal } from "@/components/Reveal";
+import { Seo } from "@/components/Seo";
+import { organizationSchema, pageSchema, schemaGraph, websiteSchema } from "@/lib/structured-data";
 import heroImg from "@/assets/logo-freeman-parede.png";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import portoLogo from "@/assets/partners/porto.svg";
@@ -105,18 +107,19 @@ const PARTNERS = [
 
 const PAGE_TITLE = "Freeman Corretora | Seguro Auto, Saúde e Empresarial em Santos/SP";
 const PAGE_DESCRIPTION =
-  "Há 35 anos protegendo pessoas e empresas — seguro de automóvel, plano de saúde e soluções corporativas sob medida (engenharia, D&O, frota, transportes e mais).";
+  "Desde 1989 protegendo pessoas e empresas com seguro de automóvel, plano de saúde e soluções corporativas sob medida em Santos/SP e em todo o Brasil.";
 
 export default function IndexPage() {
   const reduceMotion = useReducedMotion();
 
   return (
     <>
-      <title>{PAGE_TITLE}</title>
-      <meta name="description" content={PAGE_DESCRIPTION} />
-      <meta property="og:title" content={PAGE_TITLE} />
-      <meta property="og:description" content={PAGE_DESCRIPTION} />
-      <meta property="og:type" content="website" />
+      <Seo
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/"
+        jsonLd={schemaGraph(organizationSchema, websiteSchema, pageSchema("WebPage", "/"))}
+      />
       {/* HERO */}
       <section className="relative overflow-hidden bg-navy text-white">
         {/* Backdrop image — tablet & mobile: subtle full-bleed texture behind the text */}
@@ -186,7 +189,7 @@ export default function IndexPage() {
               className="mt-6 max-w-xl font-sans text-base leading-relaxed text-white/80 md:text-lg"
             >
               Do seguro automóvel e plano de saúde às soluções sob medida para proteger a sua
-              empresa — 35 anos de expertise em seguros.
+              empresa — expertise em seguros desde 1989.
             </motion.p>
             <motion.div variants={heroItem} className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link

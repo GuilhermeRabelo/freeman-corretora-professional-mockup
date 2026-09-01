@@ -8,6 +8,7 @@ const Services = lazy(() => import("./pages/Services"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Sinistros = lazy(() => import("./pages/Sinistros"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const SPLASH_SESSION_KEY = "freeman-splash-shown";
@@ -57,6 +58,7 @@ export default function App() {
               <Route path="/sobre" element={<About />} />
               <Route path="/contato" element={<Contact />} />
               <Route path="/sinistros" element={<Sinistros />} />
+              <Route path="/privacidade" element={<PrivacyPolicy />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

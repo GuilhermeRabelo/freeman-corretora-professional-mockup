@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Eye, Award, Users } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { Seo } from "@/components/Seo";
+import {
+  breadcrumbSchema,
+  leadershipSchema,
+  organizationSchema,
+  pageSchema,
+  schemaGraph,
+} from "@/lib/structured-data";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import rogerioPhoto from "@/assets/rogerio.webp";
 import igorPhoto from "@/assets/igor.webp";
@@ -45,7 +53,7 @@ const TIMELINE = [
   { year: String(new Date().getFullYear()), label: "500+ empresas atendidas" },
 ];
 
-const PAGE_TITLE = "Sobre — 35 anos de tradição em seguros corporativos | Freeman";
+const PAGE_TITLE = "Sobre — Tradição em seguros corporativos desde 1989 | Freeman";
 const PAGE_DESCRIPTION =
   "Conheça a história da Freeman Corretora, fundada em 1989 em Santos/SP. Tradição, ética e expertise técnica para proteger empresas em todo o Brasil.";
 
@@ -80,11 +88,20 @@ export default function SobrePage() {
 
   return (
     <>
-      <title>{PAGE_TITLE}</title>
-      <meta name="description" content={PAGE_DESCRIPTION} />
-      <meta property="og:title" content={PAGE_TITLE} />
-      <meta property="og:description" content={PAGE_DESCRIPTION} />
-      <meta property="og:type" content="website" />
+      <Seo
+        title={PAGE_TITLE}
+        description={PAGE_DESCRIPTION}
+        path="/sobre"
+        jsonLd={schemaGraph(
+          organizationSchema,
+          pageSchema("AboutPage", "/sobre"),
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Sobre", path: "/sobre" },
+          ]),
+          leadershipSchema,
+        )}
+      />
       {/* INTERNAL HERO */}
       <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
         <div className="mx-auto max-w-4xl px-6">
@@ -111,7 +128,7 @@ export default function SobrePage() {
           <Reveal>
             <div className="mb-16 lg:mb-20">
               <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-accent-red">
-                35 anos de história
+                Desde 1989
               </p>
               <h2 className="mt-4 text-4xl md:text-5xl">
                 Entendemos o risco para proteger o seu sucesso.
