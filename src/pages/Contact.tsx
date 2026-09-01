@@ -208,7 +208,7 @@ export default function ContatoPage() {
                 />
               </Field>
 
-              <Field name="empresa" label="Empresa (CNPJ) *" error={empresaError}>
+              <Field name="empresa" label="CPF/CNPJ *" error={empresaError}>
                 <input
                   type="text"
                   required

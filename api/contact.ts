@@ -30,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const subject = `Solicitação de cotação — ${form.seguro || "Seguro Corporativo"}`;
   const text = [
     `Nome: ${form.nome}`,
-    `Empresa (CNPJ): ${form.empresa}`,
+    `CPF/CNPJ: ${form.empresa}`,
     `Cargo: ${form.cargo ?? ""}`,
     `Telefone: ${form.telefone}`,
     `E-mail: ${form.email}`,

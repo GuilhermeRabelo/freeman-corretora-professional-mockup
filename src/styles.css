@@ -191,6 +191,7 @@
 @layer utilities {
   .animate-marquee {
     animation: marquee-left 30s linear infinite;
+    will-change: transform;
   }
 
   .marquee-mask {

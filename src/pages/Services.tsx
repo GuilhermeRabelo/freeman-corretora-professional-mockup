@@ -76,7 +76,7 @@ export default function ServicosPage() {
           </p>
           <h1 className="mt-4 text-5xl md:text-6xl">Nossas Especialidades</h1>
           <p className="mt-5 font-sans text-lg text-white/80">
-            Apólices desenhadas para a complexidade real do seu negócio.
+            Apólices desenhadas sob medida — para o seu carro, sua família ou o seu negócio.
           </p>
         </div>
         <img
@@ -102,8 +102,8 @@ export default function ServicosPage() {
                 <h2 className="mt-3 text-4xl md:text-5xl">Oito frentes. Uma corretora.</h2>
               </div>
               <p className="max-w-md font-sans text-sm leading-relaxed text-graphite">
-                Cada apólice é estruturada com cláusulas adequadas à realidade da operação — sem
-                pacote pronto, sem letra miúda.
+                Cada apólice é estruturada com cláusulas adequadas à sua realidade — pessoa física
+                ou jurídica — sem pacote pronto, sem letra miúda.
               </p>
             </div>
           </Reveal>

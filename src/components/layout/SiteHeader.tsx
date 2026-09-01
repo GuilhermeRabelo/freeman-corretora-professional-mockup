@@ -7,6 +7,7 @@ const NAV = [
   { to: "/", label: "Home", end: true },
   { to: "/sobre", label: "Sobre", end: false },
   { to: "/servicos", label: "Serviços", end: false },
+  { to: "/sinistros", label: "Sinistros", end: false },
 ] as const;
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>

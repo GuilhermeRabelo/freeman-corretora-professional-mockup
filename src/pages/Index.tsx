@@ -47,6 +47,12 @@ const heroItem: Variants = {
 
 const FEATURED = [
   {
+    icon: Car,
+    title: "Seguro Automóvel",
+    desc: "Proteção para o seu veículo, com coberturas e assistências escolhidas de acordo com o seu perfil.",
+    tag: "Especialidade",
+  },
+  {
     icon: Building2,
     title: "Seguro Empresarial",
     desc: "Soluções para proteger o patrimônio e a continuidade do seu negócio diante de imprevistos.",
@@ -56,12 +62,6 @@ const FEATURED = [
     icon: Stethoscope,
     title: "Plano de Saúde",
     desc: "Encontre o plano ideal para você, sua família ou sua empresa, comparando as melhores opções de operadoras, redes e benefícios.",
-    tag: "Especialidade",
-  },
-  {
-    icon: Car,
-    title: "Seguro Automóvel",
-    desc: "Proteção para o seu veículo, com coberturas e assistências escolhidas de acordo com o seu perfil.",
     tag: "Especialidade",
   },
 ];
@@ -103,9 +103,9 @@ const PARTNERS = [
   { name: "Bradesco Seguros", logo: bradescoSegurosLogo },
 ];
 
-const PAGE_TITLE = "Freeman Corretora — Seguros corporativos em Santos/SP";
+const PAGE_TITLE = "Freeman Corretora | Seguro Auto, Saúde e Empresarial em Santos/SP";
 const PAGE_DESCRIPTION =
-  "Há 35 anos protegendo empresas com soluções de seguros corporativos sob medida — engenharia, D&O, frota, vida em grupo, transportes e mais.";
+  "Há 35 anos protegendo pessoas e empresas — seguro de automóvel, plano de saúde e soluções corporativas sob medida (engenharia, D&O, frota, transportes e mais).";
 
 export default function IndexPage() {
   const reduceMotion = useReducedMotion();
@@ -185,8 +185,8 @@ export default function IndexPage() {
               variants={heroItem}
               className="mt-6 max-w-xl font-sans text-base leading-relaxed text-white/80 md:text-lg"
             >
-              Com 35 anos de expertise, a Freeman Corretora oferece soluções de seguros corporativos
-              sob medida para a continuidade do seu negócio.
+              Do seguro automóvel e plano de saúde às soluções sob medida para proteger a sua
+              empresa — 35 anos de expertise em seguros.
             </motion.p>
             <motion.div variants={heroItem} className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
@@ -221,8 +221,8 @@ export default function IndexPage() {
                 <h2 className="mt-3 text-4xl md:text-5xl">Onde a Freeman se diferencia.</h2>
               </div>
               <p className="max-w-md font-sans text-sm leading-relaxed text-graphite">
-                Linhas de risco que exigem análise técnica profunda e cláusulas desenhadas sob
-                medida. Nosso time mergulha na operação antes de cotar.
+                Do seu carro ao patrimônio da sua empresa, cada apólice recebe a mesma análise
+                técnica e o mesmo cuidado sob medida.
               </p>
             </div>
           </Reveal>
@@ -390,20 +390,32 @@ export default function IndexPage() {
             </p>
           </Reveal>
         </div>
-        <div className="marquee-mask group mt-8 overflow-hidden pt-10">
-          <div className="animate-marquee flex w-max gap-8 pr-8 group-hover:[animation-play-state:paused]">
-            {[...PARTNERS, ...PARTNERS].map((p, i) => (
+        <div className="marquee-mask mt-8 overflow-hidden py-10">
+          <div className="animate-marquee flex w-max">
+            {[0, 1].map((copy) => (
               <div
-                key={`${p.name}-${i}`}
-                className="group/logo relative flex h-16 shrink-0 items-center justify-center"
+                key={copy}
+                aria-hidden={copy === 1}
+                className="flex shrink-0 items-center gap-12 pr-12"
               >
-                <img src={p.logo} alt={p.name} className="h-10 w-auto object-contain" />
-                <span
-                  role="tooltip"
-                  className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2.5 py-1 font-sans text-xs font-semibold text-white opacity-0 shadow-md transition-opacity duration-200 group-hover/logo:opacity-100"
-                >
-                  {p.name}
-                </span>
+                {PARTNERS.map((p) => (
+                  <div
+                    key={`${copy}-${p.name}`}
+                    className="group/logo relative flex h-20 shrink-0 items-center justify-center"
+                  >
+                    <img
+                      src={p.logo}
+                      alt={copy === 1 ? "" : p.name}
+                      className="h-14 w-auto object-contain"
+                    />
+                    <span
+                      role="tooltip"
+                      className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2.5 py-1 font-sans text-xs font-semibold text-white opacity-0 shadow-md transition-opacity duration-200 group-hover/logo:opacity-100"
+                    >
+                      {p.name}
+                    </span>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
