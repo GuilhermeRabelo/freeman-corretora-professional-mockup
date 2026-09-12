@@ -22,6 +22,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import { WHATSAPP_URL } from "@/lib/constants";
 import { Reveal } from "@/components/Reveal";
+import { PageHero } from "@/components/PageHero";
 import { Seo } from "@/components/Seo";
 import {
   breadcrumbSchema,
@@ -221,38 +222,22 @@ export default function SinistrosPage() {
       />
 
       {/* HERO */}
-      <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
-        <div className="mx-auto max-w-4xl px-6">
-          <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
-            Central de Sinistros
-          </p>
-          <h1 className="mt-4 text-5xl md:text-6xl">
-            Sinistro é o momento em que a apólice prova seu valor.
-          </h1>
-          <p className="mt-5 font-sans text-lg text-white/80">
-            Selecione o tipo de seguro abaixo para orientação imediata, documentos necessários e um
-            canal direto com a Freeman.
-          </p>
+      <PageHero
+        eyebrow="Central de Sinistros"
+        title="Sinistro é o momento em que a apólice prova seu valor."
+        lead="Selecione o tipo de seguro abaixo para orientação imediata, documentos necessários e um canal direto com a Freeman."
+        actions={
           <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-opacity hover:opacity-90"
+            className="sheen-navy inline-flex items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4"
           >
             <MessageCircle className="h-5 w-5" />
             Falar no WhatsApp
           </a>
-        </div>
-        <img
-          src={shieldWhite}
-          alt=""
-          aria-hidden="true"
-          width={260}
-          height={260}
-          className="pointer-events-none absolute -right-10 bottom-0 h-[260px] w-[260px] opacity-[0.05]"
-          loading="lazy"
-        />
-      </section>
+        }
+      />
 
       {/* CLAIM TYPES — ACCORDION GRID */}
       <section className="bg-background py-24">
@@ -287,13 +272,13 @@ export default function SinistrosPage() {
       </section>
 
       {/* FIRST RESPONSE */}
-      <section className="bg-surface-soft py-20">
+      <section className="mesh-light py-20">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <Reveal>
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-navy">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-navy shadow-e3">
               <Clock className="h-8 w-8 text-white" strokeWidth={1.5} />
             </div>
-            <div className="mt-6 font-sans text-4xl font-black text-navy md:text-5xl">
+            <div className="tabular mt-6 font-sans text-4xl font-black text-navy md:text-5xl">
               {FIRST_RESPONSE.value}
             </div>
             <p className="mt-3 font-sans text-sm font-semibold uppercase tracking-widest text-navy-medium">
@@ -304,8 +289,8 @@ export default function SinistrosPage() {
       </section>
 
       {/* FREEMAN'S ROLE */}
-      <section className="relative overflow-hidden bg-navy py-24 text-white">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="mesh-navy grain relative overflow-hidden py-24 text-white">
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <Reveal>
             <div className="mb-14 text-center">
               <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
@@ -318,9 +303,12 @@ export default function SinistrosPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             {FREEMAN_ROLE.map(({ icon: Icon, title, desc }, i) => (
               <Reveal key={title} delay={i * 0.1}>
-                <div className="relative text-center">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center border border-white/15 bg-white/[0.03]">
-                    <Icon className="h-7 w-7 text-white" strokeWidth={1.5} />
+                <div className="group relative text-center">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[4px] border border-white/15 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-white/35">
+                    <Icon
+                      className="h-7 w-7 text-white transition-transform duration-200 group-hover:scale-110"
+                      strokeWidth={1.5}
+                    />
                   </div>
                   <h3 className="mt-4 text-xl">{title}</h3>
                   <p className="mt-2 font-sans text-sm text-white/70">{desc}</p>
@@ -342,8 +330,8 @@ export default function SinistrosPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-navy-medium py-20">
-        <Reveal className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
+      <section className="mesh-navy grain relative overflow-hidden py-20">
+        <Reveal className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
           <>
             <div>
               <h2 className="text-3xl md:text-4xl">
@@ -358,14 +346,14 @@ export default function SinistrosPage() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-opacity hover:opacity-90"
+                className="sheen-navy inline-flex items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4"
               >
                 <MessageCircle className="h-5 w-5" />
                 Falar no WhatsApp
               </a>
               <Link
                 to="/contato"
-                className="inline-flex items-center justify-center rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
+                className="sheen-navy inline-flex items-center justify-center rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4"
               >
                 Ir para Contato
               </Link>
@@ -393,7 +381,7 @@ function ClaimCard({
   const waHref = `https://wa.me/5513997281866?text=${encodeURIComponent(item.whatsappMessage)}`;
 
   return (
-    <div className="rounded-[4px] border border-divider bg-background transition-colors hover:border-navy">
+    <div className="group rounded-[4px] border border-divider bg-background shadow-e1 transition-all duration-300 hover:border-navy hover:shadow-e2">
       <button
         type="button"
         id={buttonId}

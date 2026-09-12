@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/constants";
+import { PageHero } from "@/components/PageHero";
 import { Seo } from "@/components/Seo";
 import {
   breadcrumbSchema,
@@ -133,20 +134,17 @@ export default function ContatoPage() {
           ]),
         )}
       />
+      <PageHero
+        eyebrow="Fale conosco"
+        title="Vamos conversar sobre a proteção do seu negócio."
+        lead="Nossa equipe responde em até 1 dia útil. Para urgências, prefira o WhatsApp — temos atendimento dedicado para sinistros e dúvidas técnicas."
+      />
+
       <section className="bg-background py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-16 px-6 lg:grid-cols-2">
           {/* INFO */}
           <div>
-            <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
-              Fale conosco
-            </p>
-            <h1 className="mt-4 text-4xl md:text-5xl">
-              Vamos conversar sobre a proteção do seu negócio.
-            </h1>
-            <p className="mt-6 font-sans text-base leading-relaxed text-graphite">
-              Nossa equipe responde em até 1 dia útil. Para urgências, prefira o WhatsApp — temos
-              atendimento dedicado para sinistros e dúvidas técnicas.
-            </p>
+            <h2 className="text-display-3">Canais diretos</h2>
 
             <div className="mt-10 space-y-6">
               {[
@@ -159,8 +157,8 @@ export default function ContatoPage() {
                 { icon: Mail, label: "E-mail", value: "contato@freemanseguros.com.br" },
                 { icon: Clock, label: "Horário", value: "Segunda a Sexta · 9h às 18h" },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-divider">
+                <div key={label} className="group flex gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[4px] border border-divider bg-background shadow-e1 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-navy group-hover:shadow-e2">
                     <Icon className="h-5 w-5 text-navy" strokeWidth={1.5} aria-hidden="true" />
                   </div>
                   <div>
@@ -179,14 +177,14 @@ export default function ContatoPage() {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-10 inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-opacity hover:opacity-90"
+              className="sheen-navy mt-10 inline-flex w-full items-center justify-center gap-3 rounded-[4px] bg-whatsapp px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4 sm:w-auto"
             >
               <MessageCircle className="h-5 w-5" />
               Falar no WhatsApp
             </a>
 
             {/* MAP EMBED */}
-            <div className="mt-12 overflow-hidden rounded-[4px] border border-divider shadow-sm">
+            <div className="mt-12 overflow-hidden rounded-[4px] border border-divider shadow-e2">
               <iframe
                 title="Localização Freeman Corretora — Santos/SP"
                 src="https://www.google.com/maps?q=Av.+Senador+Feij%C3%B3,+686+-+Santos,+SP&output=embed"
@@ -200,7 +198,7 @@ export default function ContatoPage() {
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="rounded-[4px] border border-divider bg-offwhite p-8 md:p-10"
+            className="h-fit rounded-[4px] border border-divider bg-offwhite p-8 shadow-e2 md:p-10"
           >
             <h2 className="text-2xl">Solicite uma cotação</h2>
             <p className="mt-2 font-sans text-sm text-graphite">
@@ -311,7 +309,7 @@ export default function ContatoPage() {
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="block w-full rounded-[4px] bg-navy px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-navy-medium disabled:cursor-not-allowed disabled:opacity-60"
+                className="sheen block w-full rounded-[4px] bg-navy px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:bg-navy-medium hover:shadow-e4 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-e2"
               >
                 {status === "submitting" ? "Enviando…" : "Enviar Solicitação"}
               </button>

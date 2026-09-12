@@ -48,7 +48,7 @@ export default function App() {
           }}
         />
       )}
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <BrowserRouter>
         <ScrollToTop />
         <Suspense fallback={null}>
           <Routes>

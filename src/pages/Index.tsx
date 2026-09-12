@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
 import {
   Building2,
   Stethoscope,
@@ -16,9 +17,13 @@ import {
 import { TrustStats } from "@/components/TrustStats";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { Reveal } from "@/components/Reveal";
+import { RevealHeading } from "@/components/RevealHeading";
+import { SpotlightCard } from "@/components/SpotlightCard";
 import { Seo } from "@/components/Seo";
+import { cardClass, cardEdgeClass } from "@/lib/ui";
+import { EASE_OUT_QUINT } from "@/lib/motion";
 import { organizationSchema, pageSchema, schemaGraph, websiteSchema } from "@/lib/structured-data";
-import heroImg from "@/assets/logo-freeman-parede.png";
+import heroImg from "@/assets/logo-freeman-parede.webp";
 import shieldWhite from "@/assets/logo-shield-white.png";
 import portoLogo from "@/assets/partners/porto.svg";
 import azulSegurosLogo from "@/assets/partners/azul-seguros.svg";
@@ -51,19 +56,19 @@ const FEATURED = [
   {
     icon: Car,
     title: "Seguro Automóvel",
-    desc: "Proteção para o seu veículo, com coberturas e assistências escolhidas de acordo com o seu perfil.",
+    desc: "Coberturas para o veículo e danos a terceiros, assistência 24 horas e suporte em sinistros, de acordo com a sua necessidade.",
     tag: "Especialidade",
   },
   {
     icon: Building2,
     title: "Seguro Empresarial",
-    desc: "Soluções para proteger o patrimônio e a continuidade do seu negócio diante de imprevistos.",
+    desc: "Proteção do patrimônio, coberturas para a continuidade do negócio e opções de responsabilidade civil, conforme os riscos da sua empresa.",
     tag: "Especialidade",
   },
   {
     icon: Stethoscope,
     title: "Plano de Saúde",
-    desc: "Encontre o plano ideal para você, sua família ou sua empresa, comparando as melhores opções de operadoras, redes e benefícios.",
+    desc: "Planos individuais, familiares e empresariais, com diferentes redes e acomodações. Compare operadoras com a orientação da Freeman.",
     tag: "Especialidade",
   },
 ];
@@ -111,6 +116,15 @@ const PAGE_DESCRIPTION =
 
 export default function IndexPage() {
   const reduceMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  // Parallax sutil: a foto desce, o texto sobe. Desligado em reduced-motion.
+  // O 9% inicial é o enquadramento original da foto, não um deslocamento.
+  const imageY = useTransform(scrollYProgress, [0, 1], ["9%", "15%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-8%"]);
 
   return (
     <>
@@ -121,7 +135,7 @@ export default function IndexPage() {
         jsonLd={schemaGraph(organizationSchema, websiteSchema, pageSchema("WebPage", "/"))}
       />
       {/* HERO */}
-      <section className="relative overflow-hidden bg-navy text-white">
+      <section ref={heroRef} className="grain relative overflow-hidden bg-navy text-white">
         {/* Backdrop image — tablet & mobile: subtle full-bleed texture behind the text */}
         <div className="absolute inset-0 lg:hidden">
           <img
@@ -135,14 +149,27 @@ export default function IndexPage() {
 
         {/* Feature image — desktop: bleeds past the container to the viewport's right edge */}
         <div className="pointer-events-none absolute inset-y-0 left-1/2 right-0 hidden overflow-hidden lg:block">
-          <img
-            src={heroImg}
-            alt="Logo da Freeman Corretora aplicada na parede do escritório"
-            width={1535}
-            height={1024}
-            fetchPriority="high"
-            className="absolute inset-0 h-full w-full translate-y-[9%] scale-125 object-cover object-[40%_60%] [filter:saturate(0.76)_contrast(1.08)_brightness(0.96)]"
-          />
+          {/* Entrada: a foto assenta junto com o escalonamento do texto */}
+          <motion.div
+            className="absolute inset-0"
+            initial={reduceMotion ? false : { opacity: 0, scale: 1.06 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, ease: EASE_OUT_QUINT }}
+          >
+            <motion.img
+              src={heroImg}
+              alt="Logo da Freeman Corretora aplicada na parede do escritório"
+              width={1535}
+              height={1024}
+              fetchPriority="high"
+              // O enquadramento (scale 1.25 + 9% para baixo) precisa viver no style
+              // do framer: o transform inline dele sobrescreve as classes do
+              // Tailwind, inclusive quando o movimento está desligado.
+              style={{ y: reduceMotion ? "9%" : imageY, scale: 1.25 }}
+              className="absolute inset-0 h-full w-full object-cover object-[40%_60%] [filter:saturate(0.76)_contrast(1.08)_brightness(0.96)]"
+            />
+          </motion.div>
+
           <div
             className="absolute inset-0"
             style={{
@@ -157,19 +184,25 @@ export default function IndexPage() {
                 "radial-gradient(circle at 60% 40%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 35%, transparent 60%)",
             }}
           />
-          <div
-            className="absolute inset-0"
-            style={{
-              boxShadow: "inset 0 0 140px 10px rgba(33,37,67,0.35)",
-            }}
-          />
+          <div className="vignette absolute inset-0" />
         </div>
 
+        {/* Segundo ponto de luz, atrás do texto — impede o navy de "morrer" à esquerda */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 55% 60% at 8% 12%, rgba(255,255,255,0.10) 0%, transparent 62%)",
+          }}
+        />
+
         <motion.div
-          className="relative z-10 mx-auto grid min-h-[80vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-0"
+          className="relative z-10 mx-auto grid min-h-[86vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-24"
           variants={heroContainer}
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
+          style={reduceMotion ? undefined : { y: textY }}
         >
           <div>
             <motion.p
@@ -178,15 +211,20 @@ export default function IndexPage() {
             >
               Corretora de Seguros · Desde 1989
             </motion.p>
-            <motion.h1
-              variants={heroItem}
-              className="mt-6 text-5xl leading-[1.05] md:text-6xl lg:text-7xl"
-            >
-              Há três décadas protegendo a sua vida e o seu patrimônio.
-            </motion.h1>
+            <RevealHeading
+              as="h1"
+              delay={0.22}
+              className="mt-6 text-display-1"
+              lines={[
+                <span key="l1" className="text-white/70">
+                  Há três décadas protegendo
+                </span>,
+                <span key="l2">a sua vida e o seu patrimônio.</span>,
+              ]}
+            />
             <motion.p
               variants={heroItem}
-              className="mt-6 max-w-xl font-sans text-base leading-relaxed text-white/80 md:text-lg"
+              className="mt-7 max-w-xl font-sans text-base leading-relaxed text-white/80 md:text-lg"
             >
               Do seguro automóvel e plano de saúde às soluções sob medida para proteger a sua
               empresa — expertise em seguros desde 1989.
@@ -194,15 +232,20 @@ export default function IndexPage() {
             <motion.div variants={heroItem} className="mt-10 flex flex-col gap-4 sm:flex-row">
               <Link
                 to="/contato"
-                className="inline-flex items-center justify-center rounded-[4px] bg-white px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy transition-colors hover:bg-white/90"
+                className="sheen-navy inline-flex items-center justify-center rounded-[4px] bg-white px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4"
               >
                 Solicitar Cotação
               </Link>
               <Link
                 to="/servicos"
-                className="inline-flex items-center justify-center rounded-[4px] border border-white/60 px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-white/10"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-[4px] border border-white/60 px-7 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white transition-colors duration-300 hover:border-white"
               >
-                Nossos Serviços
+                {/* Preenchimento que cresce de baixo em vez de um flash de opacidade */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 origin-bottom scale-y-0 bg-white/12 transition-transform duration-300 ease-out group-hover:scale-y-100"
+                />
+                <span className="relative">Nossos Serviços</span>
               </Link>
             </motion.div>
           </div>
@@ -213,7 +256,7 @@ export default function IndexPage() {
       <TrustStats />
 
       {/* SERVICES PREVIEW */}
-      <section className="bg-surface-soft py-24">
+      <section className="mesh-light py-24">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
             <div className="mb-14 flex flex-col gap-6 border-b border-divider pb-10 md:flex-row md:items-end md:justify-between">
@@ -232,23 +275,27 @@ export default function IndexPage() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {FEATURED.map(({ icon: Icon, title, desc, tag }, i) => (
-              <Reveal key={title} delay={i * 0.1}>
-                <Link
-                  to="/servicos"
-                  className="group relative flex h-full flex-col rounded-[4px] border border-divider bg-background p-8 transition-all hover:-translate-y-1 hover:border-navy hover:shadow-card-hover"
-                >
-                  <span className="font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-accent-red">
-                    {tag}
-                  </span>
-                  <Icon className="mt-6 h-10 w-10 text-navy" strokeWidth={1.25} />
-                  <h3 className="mt-6 text-2xl leading-tight">{title}</h3>
-                  <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-graphite">
-                    {desc}
-                  </p>
-                  <span className="mt-6 inline-flex items-center gap-2 font-sans text-sm font-semibold uppercase tracking-wider text-navy-medium transition-colors group-hover:text-navy">
-                    Conhecer cobertura <ArrowUpRight className="h-4 w-4" />
-                  </span>
-                </Link>
+              <Reveal key={title} delay={i * 0.1} className="h-full">
+                <SpotlightCard className={cardClass}>
+                  <span aria-hidden="true" className={cardEdgeClass} />
+                  <Link to="/servicos" className="relative flex h-full flex-col p-8">
+                    <span className="font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-accent-red">
+                      {tag}
+                    </span>
+                    <Icon
+                      className="mt-6 h-10 w-10 text-navy transition-transform duration-200 group-hover:scale-110"
+                      strokeWidth={1.25}
+                    />
+                    <h3 className="mt-6 text-2xl leading-tight">{title}</h3>
+                    <p className="mt-3 flex-1 font-sans text-sm leading-relaxed text-graphite">
+                      {desc}
+                    </p>
+                    <span className="mt-6 inline-flex items-center gap-2 font-sans text-sm font-semibold uppercase tracking-wider text-navy-medium transition-colors group-hover:text-navy">
+                      Conhecer cobertura
+                      <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
+                  </Link>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -270,9 +317,12 @@ export default function IndexPage() {
                 {SECONDARY.map(({ icon: Icon, title }) => (
                   <li
                     key={title}
-                    className="flex items-center gap-3 border border-divider bg-background px-4 py-3"
+                    className="group flex items-center gap-3 rounded-[4px] border border-divider bg-background px-4 py-3 shadow-e1 transition-all duration-300 hover:-translate-y-0.5 hover:border-navy hover:shadow-e2"
                   >
-                    <Icon className="h-5 w-5 shrink-0 text-navy-medium" strokeWidth={1.5} />
+                    <Icon
+                      className="h-5 w-5 shrink-0 text-navy-medium transition-transform duration-200 group-hover:scale-110"
+                      strokeWidth={1.5}
+                    />
                     <span className="font-sans text-sm font-semibold text-graphite">{title}</span>
                   </li>
                 ))}
@@ -316,8 +366,8 @@ export default function IndexPage() {
       </section>
 
       {/* SINISTROS / TESTIMONIALS */}
-      <section className="relative overflow-hidden bg-navy py-24 text-white">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="mesh-navy grain relative overflow-hidden py-24 text-white">
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <Reveal>
             <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
@@ -336,13 +386,15 @@ export default function IndexPage() {
           </Reveal>
 
           <Reveal>
-            <div className="mb-14 grid grid-cols-1 gap-6 border-y border-white/15 py-8 sm:grid-cols-3">
-              {CLAIMS_STATS.map((s) => (
-                <div
-                  key={s.label}
-                  className="text-center sm:border-l sm:border-white/15 sm:first:border-l-0"
-                >
-                  <div className="font-sans text-3xl font-black text-white md:text-4xl">
+            <div className="relative mb-14 grid grid-cols-1 gap-6 py-8 sm:grid-cols-3">
+              <div className="rule-glow absolute inset-x-0 top-0" />
+              <div className="rule-glow absolute inset-x-0 bottom-0" />
+              {CLAIMS_STATS.map((s, i) => (
+                <div key={s.label} className="relative text-center">
+                  {i > 0 && (
+                    <div className="rule-glow-y absolute inset-y-1 left-0 hidden sm:block" />
+                  )}
+                  <div className="tabular font-sans text-3xl font-black text-white md:text-4xl">
                     {s.value}
                   </div>
                   <div className="mt-2 font-sans text-xs font-semibold uppercase tracking-widest text-white/60">
@@ -355,13 +407,20 @@ export default function IndexPage() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {TESTIMONIALS.map(({ quote, name, role, company }, i) => (
-              <Reveal key={name} delay={i * 0.1}>
-                <figure className="flex h-full flex-col gap-6 border border-white/15 bg-white/[0.03] p-8 md:p-10">
-                  <Quote className="h-8 w-8 text-white/40" strokeWidth={1.25} />
-                  <blockquote className="font-display text-2xl leading-snug text-white md:text-[1.6rem]">
+              <Reveal key={name} delay={i * 0.1} className="h-full">
+                <figure className="relative flex h-full flex-col gap-6 overflow-hidden rounded-[4px] border border-white/15 bg-white/[0.04] p-8 backdrop-blur-sm transition-colors duration-300 hover:border-white/30 md:p-10">
+                  <div className="rule-glow absolute inset-x-0 top-0" />
+                  {/* Aspas em escala grande, sangrando atrás do texto */}
+                  <Quote
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -right-6 -top-4 h-40 w-40 text-white/[0.05]"
+                    strokeWidth={0.75}
+                  />
+                  <Quote className="relative h-8 w-8 text-white/40" strokeWidth={1.25} />
+                  <blockquote className="relative font-display text-2xl leading-snug text-white md:text-[1.6rem]">
                     &ldquo;{quote}&rdquo;
                   </blockquote>
-                  <figcaption className="mt-auto border-t border-white/15 pt-5">
+                  <figcaption className="relative mt-auto border-t border-white/15 pt-5">
                     <p className="font-sans text-sm font-bold text-white">{name}</p>
                     <p className="mt-1 font-sans text-xs uppercase tracking-widest text-white/60">
                       {role} · {company}
@@ -409,7 +468,7 @@ export default function IndexPage() {
                     <img
                       src={p.logo}
                       alt={copy === 1 ? "" : p.name}
-                      className="h-14 w-auto object-contain"
+                      className="h-14 w-auto object-contain opacity-60 grayscale transition-[filter,opacity] duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0"
                     />
                     <span
                       role="tooltip"
@@ -426,8 +485,8 @@ export default function IndexPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-navy-medium py-20">
-        <Reveal className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
+      <section className="mesh-navy grain relative overflow-hidden py-20">
+        <Reveal className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
           <>
             <div className="max-w-2xl">
               <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
@@ -443,9 +502,10 @@ export default function IndexPage() {
             </div>
             <Link
               to="/contato"
-              className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium transition-colors hover:bg-white/90"
+              className="sheen-navy group inline-flex shrink-0 items-center justify-center gap-2 rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4"
             >
-              Agendar diagnóstico <ArrowUpRight className="h-4 w-4" />
+              Agendar diagnóstico
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </>
         </Reveal>

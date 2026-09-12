@@ -9,7 +9,7 @@ import {
   pageSchema,
   schemaGraph,
 } from "@/lib/structured-data";
-import shieldWhite from "@/assets/logo-shield-white.png";
+import { PageHero } from "@/components/PageHero";
 import rogerioPhoto from "@/assets/rogerio.webp";
 import igorPhoto from "@/assets/igor.webp";
 
@@ -103,24 +103,7 @@ export default function SobrePage() {
         )}
       />
       {/* INTERNAL HERO */}
-      <section className="relative overflow-hidden bg-navy-medium py-20 text-center text-white">
-        <div className="mx-auto max-w-4xl px-6">
-          <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
-            Quem somos
-          </p>
-          <h1 className="mt-4 text-5xl md:text-6xl">A Freeman</h1>
-          <p className="mt-5 font-sans text-lg text-white/80">Construímos relações de confiança!</p>
-        </div>
-        <img
-          src={shieldWhite}
-          alt=""
-          aria-hidden="true"
-          width={260}
-          height={260}
-          className="pointer-events-none absolute -right-10 bottom-0 h-[260px] w-[260px] opacity-[0.05]"
-          loading="lazy"
-        />
-      </section>
+      <PageHero eyebrow="Quem somos" title="A Freeman" lead="Construímos relações de confiança!" />
 
       {/* INSTITUTIONAL SPLIT */}
       <section className="bg-background py-24">
@@ -157,16 +140,27 @@ export default function SobrePage() {
           <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-12">
             {DIRETORIA.map((person, i) => (
               <Reveal key={person.role} delay={i * 0.1}>
-                <div className="flex flex-col items-center text-center">
-                  <div className="h-56 w-56 overflow-hidden rounded-full bg-surface-soft sm:h-64 sm:w-64">
-                    <img
-                      src={person.photo}
-                      alt={person.name}
-                      width={768}
-                      height={768}
-                      loading="lazy"
-                      className="h-full w-full"
+                <div className="group flex flex-col items-center text-center">
+                  <div className="relative h-56 w-56 sm:h-64 sm:w-64">
+                    {/* Halo navy que acende no hover — dá presença ao retrato */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute -inset-3 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                      style={{
+                        background:
+                          "radial-gradient(circle, color-mix(in srgb, var(--color-navy) 12%, transparent) 0%, transparent 70%)",
+                      }}
                     />
+                    <div className="relative h-full w-full overflow-hidden rounded-full bg-surface-soft shadow-e2 ring-1 ring-divider transition-shadow duration-500 group-hover:shadow-e4">
+                      <img
+                        src={person.photo}
+                        alt={person.name}
+                        width={768}
+                        height={768}
+                        loading="lazy"
+                        className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    </div>
                   </div>
                   <p className="mt-8 font-sans text-2xl font-bold text-graphite">{person.name}</p>
                   <p className="mt-1 font-sans text-xs font-bold uppercase tracking-widest text-accent-red">
@@ -183,8 +177,8 @@ export default function SobrePage() {
       </section>
 
       {/* VALUES */}
-      <section className="bg-navy py-24 text-white">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="mesh-navy grain relative overflow-hidden py-24 text-white">
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <Reveal>
             <div className="mb-16 text-center">
               <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
@@ -195,9 +189,13 @@ export default function SobrePage() {
           </Reveal>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
             {VALUES.map(({ icon: Icon, title, desc }, i) => (
-              <Reveal key={title} delay={i * 0.1}>
-                <div className="h-full border border-white/15 p-8">
-                  <Icon className="h-10 w-10 text-white" strokeWidth={1.25} />
+              <Reveal key={title} delay={i * 0.1} className="h-full">
+                <div className="group relative h-full overflow-hidden rounded-[4px] border border-white/15 bg-white/[0.04] p-8 backdrop-blur-sm transition-colors duration-300 hover:border-white/35">
+                  <div className="rule-glow absolute inset-x-0 top-0" />
+                  <Icon
+                    className="h-10 w-10 text-white transition-transform duration-200 group-hover:scale-110"
+                    strokeWidth={1.25}
+                  />
                   <h3 className="mt-6 text-2xl">{title}</h3>
                   <p className="mt-4 font-sans text-sm leading-relaxed text-white/80">{desc}</p>
                 </div>
