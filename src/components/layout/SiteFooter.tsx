@@ -4,15 +4,15 @@ import logoFullWhite from "@/assets/logo-full-white.png";
 
 /** Sublinhado que desenha da esquerda no hover. */
 const linkClass =
-  "relative inline-block transition-colors hover:text-white after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white/60 after:transition-transform after:duration-300 hover:after:scale-x-100";
+  "relative inline-block py-1.5 transition-colors hover:text-white after:absolute after:bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white/60 after:transition-transform after:duration-300 hover:after:scale-x-100";
 
 export function SiteFooter() {
   return (
     <footer className="mesh-navy grain relative overflow-hidden text-white">
       <div className="rule-glow absolute inset-x-0 top-0" />
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
-          <div>
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-24 pt-16 md:pb-16">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 md:gap-12">
+          <div className="col-span-2 md:col-span-1">
             <img
               src={logoFullWhite}
               alt="Freeman Corretora"
@@ -30,7 +30,7 @@ export function SiteFooter() {
             <h2 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">
               Navegação
             </h2>
-            <ul className="space-y-3 font-sans text-sm text-white/75">
+            <ul className="space-y-1 font-sans text-sm text-white/75">
               <li>
                 <Link to="/" className={linkClass}>
                   Home
@@ -59,12 +59,21 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div>
+          {/* No mobile vai para o fim: o e-mail não cabe em meia coluna */}
+          <div className="order-last col-span-2 md:order-none md:col-span-1">
             <h2 className="mb-5 font-sans text-xs font-bold uppercase tracking-widest">Contato</h2>
-            <ul className="space-y-3 font-sans text-sm text-white/75">
-              <li>(13) 99728-1866</li>
-              <li>contato@freemanseguros.com.br</li>
-              <li>Seg–Sex · 9h às 18h</li>
+            <ul className="space-y-1 font-sans text-sm text-white/75">
+              <li>
+                <a href="tel:+5513997281866" className={linkClass}>
+                  (13) 99728-1866
+                </a>
+              </li>
+              <li>
+                <a href="mailto:contato@freemanseguros.com.br" className={linkClass}>
+                  contato@freemanseguros.com.br
+                </a>
+              </li>
+              <li className="py-1.5">Seg–Sex · 9h às 18h</li>
             </ul>
             <div className="mt-5 flex gap-4">
               <a

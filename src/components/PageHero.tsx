@@ -17,8 +17,8 @@ export function PageHero({ eyebrow, title, lead, actions }: Props) {
         <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-white/60">
           {eyebrow}
         </p>
-        <h1 className="mt-4 text-5xl md:text-6xl">{title}</h1>
-        {lead && <p className="mt-5 font-sans text-lg text-white/80">{lead}</p>}
+        <h1 className="mt-4 text-4xl md:text-6xl">{title}</h1>
+        {lead && <p className="mt-5 font-sans text-base text-white/80 md:text-lg">{lead}</p>}
         {actions && <div className="mt-8">{actions}</div>}
       </div>
 

@@ -330,14 +330,14 @@ export default function SinistrosPage() {
       </section>
 
       {/* CTA */}
-      <section className="mesh-navy grain relative overflow-hidden py-20">
+      <section className="bg-background py-20">
         <Reveal className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
           <>
             <div>
               <h2 className="text-3xl md:text-4xl">
                 Já teve um sinistro e não sabe por onde começar?
               </h2>
-              <p className="mt-3 font-sans text-base text-white/80">
+              <p className="mt-3 font-sans text-base text-graphite">
                 Fale com a nossa equipe agora mesmo pelo WhatsApp ou pelo formulário de contato.
               </p>
             </div>
@@ -353,7 +353,7 @@ export default function SinistrosPage() {
               </a>
               <Link
                 to="/contato"
-                className="sheen-navy inline-flex items-center justify-center rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4"
+                className="sheen inline-flex items-center justify-center rounded-[4px] bg-navy px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-white shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:bg-navy-medium hover:shadow-e4"
               >
                 Ir para Contato
               </Link>
@@ -438,7 +438,12 @@ function ClaimCard({
                 <Phone className="h-4 w-4 shrink-0 text-navy-medium" strokeWidth={1.5} />
                 <span className="font-sans text-sm text-graphite">
                   {item.emergencyPhoneLabel}:{" "}
-                  <strong className="text-navy">{item.emergencyPhone}</strong>
+                  <a
+                    href={`tel:${item.emergencyPhone.replace(/\D/g, "")}`}
+                    className="font-bold text-navy underline underline-offset-2 hover:text-navy-medium"
+                  >
+                    {item.emergencyPhone}
+                  </a>
                 </span>
               </div>
 

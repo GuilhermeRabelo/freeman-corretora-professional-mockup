@@ -3,19 +3,22 @@ import { PROCESS } from "@/data/process";
 import { EASE_OUT_QUINT } from "@/lib/motion";
 
 const itemClass =
-  "group relative flex flex-col gap-4 bg-background p-8 transition-colors duration-300 hover:bg-surface-soft md:p-10";
+  "group relative flex flex-col gap-4 bg-background p-6 transition-colors duration-300 hover:bg-surface-soft md:p-10";
 
 function StepBody({ index, Icon, title, desc }: StepBodyProps) {
   return (
     <>
-      <span className="text-shine tabular font-display text-display-3 leading-none opacity-35 transition-opacity duration-300 group-hover:opacity-100">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      <Icon
-        className="h-7 w-7 text-navy transition-transform duration-200 group-hover:scale-110"
-        strokeWidth={1.5}
-        aria-hidden="true"
-      />
+      {/* Número e ícone lado a lado no mobile para encurtar cada etapa */}
+      <div className="flex items-center gap-4 md:flex-col md:items-start">
+        <span className="text-shine tabular font-display text-display-3 leading-none opacity-35 transition-opacity duration-300 group-hover:opacity-100">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <Icon
+          className="h-7 w-7 text-navy transition-transform duration-200 group-hover:scale-110"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        />
+      </div>
       <h3 className="text-xl">{title}</h3>
       <p className="font-sans text-sm leading-relaxed text-graphite">{desc}</p>
     </>

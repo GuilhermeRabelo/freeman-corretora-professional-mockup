@@ -78,7 +78,7 @@ export default function ContatoPage() {
 
   const inputClass = (hasError: boolean) =>
     [
-      "w-full rounded-[4px] border bg-background px-4 py-3 font-sans text-sm text-graphite focus:outline-none focus:ring-2",
+      "w-full rounded-[4px] border bg-background px-4 py-3 font-sans text-base text-graphite focus:outline-none focus:ring-2 md:text-sm",
       hasError
         ? "border-accent-red focus:border-accent-red focus:ring-accent-red/20"
         : "border-divider focus:border-navy focus:ring-navy/20",
@@ -152,25 +152,59 @@ export default function ContatoPage() {
                   icon: MapPin,
                   label: "Endereço",
                   value: "Av. Senador Feijó, 686 — Sala 1525\nSantos/SP",
+                  href: "https://www.google.com/maps/search/?api=1&query=Av.+Senador+Feij%C3%B3,+686+-+Santos,+SP",
                 },
-                { icon: Phone, label: "Telefone", value: "(13) 99728-1866" },
-                { icon: Mail, label: "E-mail", value: "contato@freemanseguros.com.br" },
+                {
+                  icon: Phone,
+                  label: "Telefone",
+                  value: "(13) 99728-1866",
+                  href: "tel:+5513997281866",
+                },
+                {
+                  icon: Mail,
+                  label: "E-mail",
+                  value: "contato@freemanseguros.com.br",
+                  href: "mailto:contato@freemanseguros.com.br",
+                },
                 { icon: Clock, label: "Horário", value: "Segunda a Sexta · 9h às 18h" },
-              ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="group flex gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[4px] border border-divider bg-background shadow-e1 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-navy group-hover:shadow-e2">
-                    <Icon className="h-5 w-5 text-navy" strokeWidth={1.5} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="font-sans text-xs font-bold uppercase tracking-widest text-navy-medium">
-                      {label}
+              ].map(({ icon: Icon, label, value, href }) => {
+                const content = (
+                  <>
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[4px] border border-divider bg-background shadow-e1 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-navy group-hover:shadow-e2">
+                      <Icon className="h-5 w-5 text-navy" strokeWidth={1.5} aria-hidden="true" />
                     </div>
-                    <div className="mt-1 whitespace-pre-line font-sans text-sm text-graphite">
-                      {value}
+                    <div>
+                      <div className="font-sans text-xs font-bold uppercase tracking-widest text-navy-medium">
+                        {label}
+                      </div>
+                      <div className="mt-1 whitespace-pre-line font-sans text-sm text-graphite">
+                        {value}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </>
+                );
+
+                if (!href) {
+                  return (
+                    <div key={label} className="group flex gap-4">
+                      {content}
+                    </div>
+                  );
+                }
+
+                const external = href.startsWith("http");
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className="group flex gap-4"
+                  >
+                    {content}
+                  </a>
+                );
+              })}
             </div>
 
             <a
@@ -198,7 +232,7 @@ export default function ContatoPage() {
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="h-fit rounded-[4px] border border-divider bg-offwhite p-8 shadow-e2 md:p-10"
+            className="order-first h-fit rounded-[4px] border border-divider bg-offwhite p-6 shadow-e2 md:p-10 lg:order-none"
           >
             <h2 className="text-2xl">Solicite uma cotação</h2>
             <p className="mt-2 font-sans text-sm text-graphite">
@@ -212,6 +246,7 @@ export default function ContatoPage() {
                   type="text"
                   required
                   name="nome"
+                  autoComplete="name"
                   value={form.nome}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -226,6 +261,7 @@ export default function ContatoPage() {
                   type="text"
                   required
                   name="empresa"
+                  inputMode="numeric"
                   value={form.empresa}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -241,7 +277,7 @@ export default function ContatoPage() {
                   name="cargo"
                   value={form.cargo}
                   onChange={handleChange}
-                  className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-sm text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
+                  className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-base text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20 md:text-sm"
                 />
               </Field>
 
@@ -250,6 +286,7 @@ export default function ContatoPage() {
                   type="tel"
                   required
                   name="telefone"
+                  autoComplete="tel"
                   value={form.telefone}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -264,6 +301,7 @@ export default function ContatoPage() {
                   type="email"
                   required
                   name="email"
+                  autoComplete="email"
                   value={form.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -302,7 +340,7 @@ export default function ContatoPage() {
                   name="mensagem"
                   value={form.mensagem}
                   onChange={handleChange}
-                  className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-sm text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
+                  className="w-full rounded-[4px] border border-divider bg-background px-4 py-3 font-sans text-base text-graphite focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20 md:text-sm"
                 />
               </Field>
 

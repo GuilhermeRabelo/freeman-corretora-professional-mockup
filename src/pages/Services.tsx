@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Car,
   Stethoscope,
@@ -31,6 +31,7 @@ import {
 
 const SERVICES = [
   {
+    id: "automovel",
     icon: Car,
     title: "Seguro Automóvel",
     featured: true,
@@ -55,6 +56,7 @@ const SERVICES = [
     ],
   },
   {
+    id: "empresarial",
     icon: Building2,
     title: "Seguro Empresarial",
     featured: true,
@@ -79,6 +81,7 @@ const SERVICES = [
     ],
   },
   {
+    id: "saude",
     icon: Stethoscope,
     title: "Plano de Saúde",
     featured: true,
@@ -103,6 +106,7 @@ const SERVICES = [
     ],
   },
   {
+    id: "residencial",
     icon: Home,
     title: "Seguro Residencial",
     desc: "Proteção para sua casa e seus bens, além de assistências para facilitar o seu dia a dia.",
@@ -126,6 +130,7 @@ const SERVICES = [
     ],
   },
   {
+    id: "condominio",
     icon: Building,
     title: "Seguro Condomínio",
     desc: "Proteção para condomínios residenciais e comerciais, com coberturas para a estrutura, áreas comuns e responsabilidades.",
@@ -149,6 +154,7 @@ const SERVICES = [
     ],
   },
   {
+    id: "vida",
     icon: HeartPulse,
     title: "Seguro de Vida",
     desc: "Proteção financeira para você e sua família nos momentos em que mais precisarem.",
@@ -172,6 +178,7 @@ const SERVICES = [
     ],
   },
   {
+    id: "viagem",
     icon: Plane,
     title: "Seguro Viagem",
     desc: "Viaje com tranquilidade e conte com proteção e assistência para imprevistos no Brasil ou no exterior.",
@@ -195,6 +202,7 @@ const SERVICES = [
     ],
   },
   {
+    id: "consorcio",
     icon: HandCoins,
     title: "Consórcio",
     desc: "Planeje a conquista do seu imóvel, veículo ou outros projetos de forma organizada e estratégica.",
@@ -224,8 +232,17 @@ const PAGE_DESCRIPTION =
   "8 linhas de seguros: automóvel, saúde, residencial, empresarial, condomínio, vida, viagem e consórcio. Atendimento dedicado em Santos/SP.";
 
 export default function ServicosPage() {
-  const [openServices, setOpenServices] = useState<Set<number>>(() => new Set());
+  const { hash } = useLocation();
+  // Vindo da Home com #id (ex.: /servicos#consorcio), o card desse serviço já abre expandido.
+  const [openServices, setOpenServices] = useState<Set<number>>(() => {
+    const index = SERVICES.findIndex((service) => service.id === hash.slice(1));
+    return new Set(index >= 0 ? [index] : []);
+  });
   const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+  }, [hash]);
 
   // Cada card abre e fecha sozinho: abrir um não recolhe outro, então a página não pula.
   const toggleService = (index: number) =>
@@ -261,14 +278,17 @@ export default function ServicosPage() {
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {SERVICES.map(({ icon: Icon, title, desc, benefits, featured }, i) => {
+            {SERVICES.map(({ id, icon: Icon, title, desc, benefits, featured }, i) => {
               const isOpen = openServices.has(i);
 
               return (
                 <Reveal key={title} delay={(i % 2) * 0.1} className="h-full">
                   <SpotlightCard className={staticCardClass}>
                     <span aria-hidden="true" className={cardEdgeClass} />
-                    <div className="relative flex flex-1 flex-col p-6 md:p-8">
+                    <div
+                      id={id}
+                      className="relative flex flex-1 scroll-mt-28 md:scroll-mt-32 flex-col p-6 md:p-8"
+                    >
                       <div className="flex items-center gap-4">
                         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[4px] bg-navy shadow-e2 transition-transform duration-300 group-hover:scale-105">
                           <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />

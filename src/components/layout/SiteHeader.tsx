@@ -43,12 +43,12 @@ export function SiteHeader() {
           : "border-b border-divider bg-background",
       ].join(" ")}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:h-20">
         <Link to="/" className="flex items-center" aria-label="Freeman Corretora — Início">
           <img
             src={logoFullNavy}
             alt="Freeman Corretora"
-            className="h-12 w-auto"
+            className="h-10 w-auto md:h-12"
             width={240}
             height={64}
           />

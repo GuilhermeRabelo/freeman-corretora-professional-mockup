@@ -52,20 +52,24 @@ const heroItem: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
+// Os ids batem com os de Services.tsx: o link abre a página já com o card do serviço expandido.
 const FEATURED = [
   {
+    id: "automovel",
     icon: Car,
     title: "Seguro Automóvel",
     desc: "Coberturas para o veículo e danos a terceiros, assistência 24 horas e suporte em sinistros, de acordo com a sua necessidade.",
     tag: "Especialidade",
   },
   {
+    id: "empresarial",
     icon: Building2,
     title: "Seguro Empresarial",
     desc: "Proteção do patrimônio, coberturas para a continuidade do negócio e opções de responsabilidade civil, conforme os riscos da sua empresa.",
     tag: "Especialidade",
   },
   {
+    id: "saude",
     icon: Stethoscope,
     title: "Plano de Saúde",
     desc: "Planos individuais, familiares e empresariais, com diferentes redes e acomodações. Compare operadoras com a orientação da Freeman.",
@@ -74,11 +78,11 @@ const FEATURED = [
 ];
 
 const SECONDARY = [
-  { icon: HomeIcon, title: "Seguro Residencial" },
-  { icon: Building, title: "Seguro Condomínio" },
-  { icon: HeartPulse, title: "Seguro de Vida" },
-  { icon: Plane, title: "Seguro Viagem" },
-  { icon: HandCoins, title: "Consórcio" },
+  { id: "residencial", icon: HomeIcon, title: "Seguro Residencial" },
+  { id: "condominio", icon: Building, title: "Seguro Condomínio" },
+  { id: "vida", icon: HeartPulse, title: "Seguro de Vida" },
+  { id: "viagem", icon: Plane, title: "Seguro Viagem" },
+  { id: "consorcio", icon: HandCoins, title: "Consórcio" },
 ];
 
 const TESTIMONIALS = [
@@ -198,7 +202,7 @@ export default function IndexPage() {
         />
 
         <motion.div
-          className="relative z-10 mx-auto grid min-h-[86vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-24"
+          className="relative z-10 mx-auto grid min-h-[86svh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 lg:grid-cols-2 lg:py-24"
           variants={heroContainer}
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
@@ -274,11 +278,11 @@ export default function IndexPage() {
           </Reveal>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {FEATURED.map(({ icon: Icon, title, desc, tag }, i) => (
+            {FEATURED.map(({ id, icon: Icon, title, desc, tag }, i) => (
               <Reveal key={title} delay={i * 0.1} className="h-full">
                 <SpotlightCard className={cardClass}>
                   <span aria-hidden="true" className={cardEdgeClass} />
-                  <Link to="/servicos" className="relative flex h-full flex-col p-8">
+                  <Link to={`/servicos#${id}`} className="relative flex h-full flex-col p-8">
                     <span className="font-sans text-[10px] font-bold uppercase tracking-[0.2em] text-accent-red">
                       {tag}
                     </span>
@@ -301,29 +305,30 @@ export default function IndexPage() {
           </div>
 
           <Reveal>
-            <div className="mt-14 border-t border-divider pt-10">
-              <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
-                  Também atendemos
-                </p>
-                <Link
-                  to="/servicos"
-                  className="inline-flex items-center gap-2 font-sans text-xs font-bold uppercase tracking-wider text-navy hover:text-navy-medium"
-                >
-                  Ver todas as linhas <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-              </div>
-              <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-                {SECONDARY.map(({ icon: Icon, title }) => (
-                  <li
-                    key={title}
-                    className="group flex items-center gap-3 rounded-[4px] border border-divider bg-background px-4 py-3 shadow-e1 transition-all duration-300 hover:-translate-y-0.5 hover:border-navy hover:shadow-e2"
-                  >
-                    <Icon
-                      className="h-5 w-5 shrink-0 text-navy-medium transition-transform duration-200 group-hover:scale-110"
-                      strokeWidth={1.5}
-                    />
-                    <span className="font-sans text-sm font-semibold text-graphite">{title}</span>
+            {/* No mobile o "Ver todas as linhas" vai para depois da lista */}
+            <div className="mt-14 grid grid-cols-1 gap-6 border-t border-divider pt-10 md:grid-cols-[1fr_auto] md:items-center">
+              <p className="font-sans text-xs font-bold uppercase tracking-[0.25em] text-navy-medium">
+                Também atendemos
+              </p>
+              <Link
+                to="/servicos"
+                className="order-last inline-flex items-center gap-2 justify-self-start font-sans text-xs font-bold uppercase tracking-wider text-navy hover:text-navy-medium md:order-none md:justify-self-end"
+              >
+                Ver todas as linhas <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <ul className="grid grid-cols-2 gap-3 md:col-span-2 lg:grid-cols-5">
+                {SECONDARY.map(({ id, icon: Icon, title }) => (
+                  <li key={title} className="last:col-span-2 lg:last:col-span-1">
+                    <Link
+                      to={`/servicos#${id}`}
+                      className="group flex h-full items-center gap-3 rounded-[4px] border border-divider bg-background px-4 py-3 shadow-e1 transition-all duration-300 hover:-translate-y-0.5 hover:border-navy hover:shadow-e2"
+                    >
+                      <Icon
+                        className="h-5 w-5 shrink-0 text-navy-medium transition-transform duration-200 group-hover:scale-110"
+                        strokeWidth={1.5}
+                      />
+                      <span className="font-sans text-sm font-semibold text-graphite">{title}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -408,7 +413,7 @@ export default function IndexPage() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {TESTIMONIALS.map(({ quote, name, role, company }, i) => (
               <Reveal key={name} delay={i * 0.1} className="h-full">
-                <figure className="relative flex h-full flex-col gap-6 overflow-hidden rounded-[4px] border border-white/15 bg-white/[0.04] p-8 backdrop-blur-sm transition-colors duration-300 hover:border-white/30 md:p-10">
+                <figure className="relative flex h-full flex-col gap-6 overflow-hidden rounded-[4px] border border-white/15 bg-white/[0.04] p-6 backdrop-blur-sm transition-colors duration-300 hover:border-white/30 md:p-10">
                   <div className="rule-glow absolute inset-x-0 top-0" />
                   {/* Aspas em escala grande, sangrando atrás do texto */}
                   <Quote
@@ -417,7 +422,7 @@ export default function IndexPage() {
                     strokeWidth={0.75}
                   />
                   <Quote className="relative h-8 w-8 text-white/40" strokeWidth={1.25} />
-                  <blockquote className="relative font-display text-2xl leading-snug text-white md:text-[1.6rem]">
+                  <blockquote className="relative font-display text-xl leading-snug text-white md:text-[1.6rem]">
                     &ldquo;{quote}&rdquo;
                   </blockquote>
                   <figcaption className="relative mt-auto border-t border-white/15 pt-5">
@@ -468,7 +473,7 @@ export default function IndexPage() {
                     <img
                       src={p.logo}
                       alt={copy === 1 ? "" : p.name}
-                      className="h-14 w-auto object-contain opacity-60 grayscale transition-[filter,opacity] duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0"
+                      className="h-14 w-auto object-contain transition-[filter,opacity] duration-300 [@media(hover:hover)]:opacity-60 [@media(hover:hover)]:grayscale group-hover/logo:opacity-100 group-hover/logo:grayscale-0"
                     />
                     <span
                       role="tooltip"

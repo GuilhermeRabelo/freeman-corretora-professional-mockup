@@ -48,7 +48,7 @@ export function AnimatedCounter({ end, suffix = "", duration = 3500, className }
 
   return (
     <span ref={ref} className={className}>
-      {value}
+      {value.toLocaleString("pt-BR")}
       {suffix}
     </span>
   );

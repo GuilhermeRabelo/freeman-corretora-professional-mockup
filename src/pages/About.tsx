@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Eye, Award, Users } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Eye, Award, Users, ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { Seo } from "@/components/Seo";
 import {
@@ -290,6 +291,27 @@ export default function SobrePage() {
             })}
           </div>
         </div>
+      </section>
+
+      {/* CTA */}
+      <section className="mesh-navy grain relative overflow-hidden py-20">
+        <Reveal className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 text-center md:flex-row md:text-left">
+          <>
+            <div>
+              <h2 className="text-3xl md:text-4xl">Vamos conversar sobre a sua proteção?</h2>
+              <p className="mt-3 font-sans text-base text-white/80">
+                Nossa equipe monta a proteção ideal para você, sua família ou sua empresa.
+              </p>
+            </div>
+            <Link
+              to="/contato"
+              className="sheen-navy group inline-flex shrink-0 items-center justify-center gap-2 rounded-[4px] bg-white px-8 py-4 font-sans text-sm font-bold uppercase tracking-wider text-navy-medium shadow-e2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-e4"
+            >
+              Solicitar Cotação
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          </>
+        </Reveal>
       </section>
     </>
   );
