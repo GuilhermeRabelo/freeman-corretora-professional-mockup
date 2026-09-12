@@ -5,10 +5,10 @@ import { STATS } from "@/data/stats";
 export function TrustStats() {
   return (
     <section className="relative border-b border-divider bg-background">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 px-6 py-16 md:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-10 px-6 py-16 md:grid-cols-4">
         {STATS.map(({ icon: Icon, ...s }, i) => (
           <Reveal key={s.label} delay={i * 0.08} y={16}>
-            <div className="relative px-6 text-center">
+            <div className="relative px-2 text-center xl:px-6">
               {i > 0 && (
                 <div className="rule-glow-y-navy absolute inset-y-2 left-0 hidden md:block" />
               )}
@@ -27,7 +27,7 @@ export function TrustStats() {
               <AnimatedCounter
                 end={s.end}
                 suffix={s.suffix}
-                className="tabular mt-3 block font-sans text-5xl font-black text-navy md:text-6xl"
+                className="tabular mt-3 block font-sans text-2xl font-black text-navy min-[375px]:text-3xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl"
               />
               <div className="mt-3 font-sans text-xs font-semibold uppercase tracking-widest text-graphite">
                 {s.label}
